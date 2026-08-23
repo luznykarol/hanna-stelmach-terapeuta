@@ -204,9 +204,13 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
 
 // Memoise the in-flight promise (not just the result) so concurrent component
 // renders share a single Storyblok fetch per build instead of racing.
+// In dev we skip the cache so every preview reload fetches fresh content —
+// otherwise saved/published CMS changes wouldn't show without restarting the
+// dev server.
 let cache: Promise<SiteContent> | null = null;
 
 export function getContent(): Promise<SiteContent> {
+  if (import.meta.env.DEV) return loadContent();
   if (!cache) cache = loadContent();
   return cache;
 }
