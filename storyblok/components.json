@@ -1,0 +1,165 @@
+{
+  "components": [
+    {
+      "name": "page",
+      "display_name": "Strona",
+      "is_root": true,
+      "is_nestable": false,
+      "schema": {
+        "body": {
+          "type": "bloks",
+          "pos": 0,
+          "restrict_components": true,
+          "component_whitelist": [
+            "site_settings",
+            "hero",
+            "about",
+            "therapy",
+            "cta_banner",
+            "pricing",
+            "reviews",
+            "contact"
+          ]
+        }
+      }
+    },
+    {
+      "name": "site_settings",
+      "display_name": "Ustawienia globalne",
+      "is_nestable": true,
+      "schema": {
+        "logo_line1": { "type": "text", "pos": 0, "display_name": "Logo — linia 1" },
+        "logo_line2": { "type": "text", "pos": 1, "display_name": "Logo — linia 2" },
+        "booking_url": { "type": "text", "pos": 2, "display_name": "Link „umów wizytę”" },
+        "booking_label": { "type": "text", "pos": 3, "display_name": "Tekst przycisku" },
+        "nav": {
+          "type": "bloks",
+          "pos": 4,
+          "display_name": "Menu",
+          "restrict_components": true,
+          "component_whitelist": ["nav_item"]
+        },
+        "footer_text": { "type": "text", "pos": 5, "display_name": "Tekst stopki" }
+      }
+    },
+    {
+      "name": "nav_item",
+      "display_name": "Pozycja menu",
+      "is_nestable": true,
+      "schema": {
+        "label": { "type": "text", "pos": 0, "display_name": "Etykieta" },
+        "href": { "type": "text", "pos": 1, "display_name": "Kotwica (np. #o-mnie)" }
+      }
+    },
+    {
+      "name": "hero",
+      "display_name": "Hero (nagłówek strony)",
+      "is_nestable": true,
+      "schema": {
+        "title": { "type": "text", "pos": 0, "display_name": "Tytuł" },
+        "subtitle": { "type": "textarea", "pos": 1, "display_name": "Podtytuł" }
+      }
+    },
+    {
+      "name": "about",
+      "display_name": "O mnie",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "text": { "type": "textarea", "pos": 1, "display_name": "Treść" },
+        "image": { "type": "asset", "pos": 2, "display_name": "Zdjęcie", "filetypes": ["images"] }
+      }
+    },
+    {
+      "name": "therapy",
+      "display_name": "Terapia",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "intro": { "type": "textarea", "pos": 1, "display_name": "Wstęp" },
+        "items": {
+          "type": "bloks",
+          "pos": 2,
+          "display_name": "Kafelki terapii",
+          "restrict_components": true,
+          "component_whitelist": ["therapy_item"]
+        }
+      }
+    },
+    {
+      "name": "therapy_item",
+      "display_name": "Kafelek terapii",
+      "is_nestable": true,
+      "schema": {
+        "image": { "type": "asset", "pos": 0, "display_name": "Zdjęcie", "filetypes": ["images"] },
+        "name": { "type": "text", "pos": 1, "display_name": "Nazwa" },
+        "description": { "type": "textarea", "pos": 2, "display_name": "Opis" }
+      }
+    },
+    {
+      "name": "cta_banner",
+      "display_name": "Baner CTA",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" }
+      }
+    },
+    {
+      "name": "pricing",
+      "display_name": "Cennik",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "intro": { "type": "textarea", "pos": 1, "display_name": "Wstęp" },
+        "items": {
+          "type": "bloks",
+          "pos": 2,
+          "display_name": "Pozycje cennika",
+          "restrict_components": true,
+          "component_whitelist": ["pricing_item"]
+        }
+      }
+    },
+    {
+      "name": "pricing_item",
+      "display_name": "Pozycja cennika",
+      "is_nestable": true,
+      "schema": {
+        "name": { "type": "text", "pos": 0, "display_name": "Nazwa" },
+        "price": { "type": "text", "pos": 1, "display_name": "Cena (np. 250 zł)" },
+        "duration": { "type": "text", "pos": 2, "display_name": "Czas (np. 1h)" }
+      }
+    },
+    {
+      "name": "reviews",
+      "display_name": "Opinie (widget ZnanyLekarz)",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "znanylekarz_profile_url": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Link do profilu ZnanyLekarz"
+        }
+      }
+    },
+    {
+      "name": "contact",
+      "display_name": "Kontakt",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "phone_label": { "type": "text", "pos": 1 },
+        "phone_value": { "type": "text", "pos": 2, "display_name": "Telefon" },
+        "email_label": { "type": "text", "pos": 3 },
+        "email_value": { "type": "text", "pos": 4, "display_name": "E-mail" },
+        "address_label": { "type": "text", "pos": 5 },
+        "address_value": { "type": "text", "pos": 6, "display_name": "Adres" },
+        "social_label": { "type": "text", "pos": 7 },
+        "directions_title": { "type": "text", "pos": 8, "display_name": "Tytuł „Jak dotrzeć”" },
+        "directions": { "type": "textarea", "pos": 9, "display_name": "Opis dojazdu" },
+        "map_embed_url": { "type": "text", "pos": 10, "display_name": "Link do mapy (embed)" }
+      }
+    }
+  ]
+}

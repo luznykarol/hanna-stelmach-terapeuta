@@ -1,5 +1,6 @@
 ---
-import { about } from '../data/content';
+import { getContent } from '../lib/content';
+const { about } = await getContent();
 ---
 
 <section id={about.id} class="bg-sage-light text-ink">

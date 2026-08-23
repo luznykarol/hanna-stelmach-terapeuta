@@ -1,6 +1,7 @@
 ---
-import { ctaBanner } from '../data/content';
+import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+const { ctaBanner } = await getContent();
 ---
 
 <section class="relative overflow-hidden bg-cream text-forest-deep">

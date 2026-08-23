@@ -1,5 +1,6 @@
 ---
-import { footer, site } from '../data/content';
+import { getContent } from '../lib/content';
+const { footer, site } = await getContent();
 
 const year = 2026;
 ---

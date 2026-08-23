@@ -1,5 +1,6 @@
 ---
-import { therapy } from '../data/content';
+import { getContent } from '../lib/content';
+const { therapy } = await getContent();
 ---
 
 <section id={therapy.id} class="bg-forest text-cream-text">

@@ -1,5 +1,6 @@
 ---
-import { site } from '../data/content';
+import { getContent } from '../lib/content';
+const { site } = await getContent();
 
 interface Props {
   /** Visual variant: light = for dark backgrounds, dark = for light backgrounds. */

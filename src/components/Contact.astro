@@ -1,5 +1,6 @@
 ---
-import { contact } from '../data/content';
+import { getContent } from '../lib/content';
+const { contact } = await getContent();
 ---
 
 <section id={contact.id} class="bg-sage text-forest-deep">

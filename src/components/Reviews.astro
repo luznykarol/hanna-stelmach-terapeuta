@@ -1,5 +1,6 @@
 ---
-import { reviews } from '../data/content';
+import { getContent } from '../lib/content';
+const { reviews } = await getContent();
 
 /*
   Reviews are rendered by the official ZnanyLekarz widget.

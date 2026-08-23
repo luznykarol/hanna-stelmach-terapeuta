@@ -1,6 +1,7 @@
 ---
-import { hero } from '../data/content';
+import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+const { hero } = await getContent();
 ---
 
 <section
