@@ -1,0 +1,37 @@
+---
+// One contact detail: a white circle with a fern icon, a title and a value
+// (optionally a link). Extra markup (e.g. a list of social links) can be passed
+// via the default slot instead of `value`.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  icon: ImageMetadata;
+  label: string;
+  value?: string;
+  /** If set, the value is rendered as a link (e.g. tel: / mailto:). */
+  href?: string;
+}
+
+const { icon, label, value, href } = Astro.props;
+---
+
+<div class="flex flex-col items-center text-center">
+  <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm">
+    <Image src={icon} alt="" aria-hidden="true" class="h-11 w-auto object-contain" />
+  </div>
+  <p class="mb-1 text-xs font-medium tracking-widest text-forest-deep/70 uppercase">
+    {label}
+  </p>
+  {
+    value &&
+      (href ? (
+        <a href={href} class="text-sm text-forest-deep hover:underline">
+          {value}
+        </a>
+      ) : (
+        <p class="text-sm text-forest-deep">{value}</p>
+      ))
+  }
+  <slot />
+</div>

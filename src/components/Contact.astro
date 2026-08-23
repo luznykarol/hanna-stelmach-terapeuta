@@ -1,5 +1,10 @@
 ---
 import { getContent } from '../lib/content';
+import ContactItem from './ContactItem.astro';
+import phoneIcon from '../assets/img/phone.png';
+import emailIcon from '../assets/img/email.png';
+import addressIcon from '../assets/img/adress.png';
+import socialIcon from '../assets/img/social_media.png';
 const { contact, editable } = await getContent();
 ---
 
@@ -9,41 +14,31 @@ const { contact, editable } = await getContent();
       {contact.heading}
     </h2>
 
-    <div
-      class="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4"
-    >
-      <div>
-        <p class="mb-1 text-xs tracking-widest uppercase text-forest-deep/60">
-          {contact.phone.label}
-        </p>
-        <a href={contact.phone.href} class="text-sm hover:underline">
-          {contact.phone.value}
-        </a>
-      </div>
-      <div>
-        <p class="mb-1 text-xs tracking-widest uppercase text-forest-deep/60">
-          {contact.email.label}
-        </p>
-        <a href={contact.email.href} class="text-sm hover:underline">
-          {contact.email.value}
-        </a>
-      </div>
-      <div>
-        <p class="mb-1 text-xs tracking-widest uppercase text-forest-deep/60">
-          {contact.address.label}
-        </p>
-        <p class="text-sm">{contact.address.value}</p>
-      </div>
-      <div>
-        <p class="mb-1 text-xs tracking-widest uppercase text-forest-deep/60">
-          {contact.social.label}
-        </p>
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <ContactItem
+        icon={phoneIcon}
+        label={contact.phone.label}
+        value={contact.phone.value}
+        href={contact.phone.href}
+      />
+      <ContactItem
+        icon={emailIcon}
+        label={contact.email.label}
+        value={contact.email.value}
+        href={contact.email.href}
+      />
+      <ContactItem
+        icon={addressIcon}
+        label={contact.address.label}
+        value={contact.address.value}
+      />
+      <ContactItem icon={socialIcon} label={contact.social.label}>
         {
           contact.social.links.length > 0 ? (
             <ul class="flex justify-center gap-3">
               {contact.social.links.map((link) => (
                 <li>
-                  <a href={link.href} class="text-sm hover:underline">
+                  <a href={link.href} class="text-sm text-forest-deep hover:underline">
                     {link.label}
                   </a>
                 </li>
@@ -53,7 +48,7 @@ const { contact, editable } = await getContent();
             <p class="text-sm text-forest-deep/50">—</p>
           )
         }
-      </div>
+      </ContactItem>
     </div>
 
     <div class="mt-14 grid gap-8 md:grid-cols-[1fr_1.3fr] md:items-start">
