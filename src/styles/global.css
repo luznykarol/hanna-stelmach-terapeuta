@@ -14,12 +14,11 @@
 
 @theme {
   /* Brand greens */
-  --color-forest: #3c4a34; /* dark green sections (hero, terapia, opinie) */
-  --color-forest-deep: #2e3826; /* deepest green / text on light */
-  --color-sage: #9aa986; /* medium sage (cennik, kontakt) */
-  --color-sage-light: #c8d0ba; /* light sage (o mnie) */
+  --color-forest: #3E553C; /* dark green sections (hero, terapia, opinie) */
+  --color-forest-deep: #344932; /* deepest green / text on light */
+  --color-sage: #9EBC9B; /* medium sage (cennik, kontakt) */
   --color-cream: #f4f2e9; /* off-white background (pomóc ci jakoś, cards) */
-  --color-paper: #ffffff;
+  --color-white: #ffffff;
 
   /* Semantic text colors */
   --color-ink: #2e3826; /* default dark text on light backgrounds */

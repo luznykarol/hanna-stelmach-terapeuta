@@ -9,7 +9,7 @@ const { site, editable } = await getContent();
     aria-label="Główna nawigacja"
   >
     <!-- Logo -->
-    <a href="#top" class="flex flex-col leading-tight text-cream-text">
+    <a href="#top" class="flex flex-col leading-tight text-white-text">
       <span class="font-display text-lg sm:text-xl">{site.logoLine1}</span>
       <span class="text-[0.7rem] tracking-[0.3em] uppercase opacity-80">
         {site.logoLine2}
@@ -23,7 +23,7 @@ const { site, editable } = await getContent();
           <li>
             <a
               href={item.href}
-              class="text-sm tracking-wide text-cream-text/90 uppercase transition-opacity hover:opacity-70"
+              class="text-sm tracking-wide text-white-text/90 uppercase transition-opacity hover:opacity-70"
             >
               {item.label}
             </a>
@@ -36,7 +36,7 @@ const { site, editable } = await getContent();
     <button
       type="button"
       id="menu-toggle"
-      class="flex h-10 w-10 items-center justify-center text-cream-text md:hidden"
+      class="flex h-10 w-10 items-center justify-center text-white-text md:hidden"
       aria-label="Otwórz menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
@@ -58,7 +58,7 @@ const { site, editable } = await getContent();
           <li>
             <a
               href={item.href}
-              class="mobile-link block py-1 text-sm tracking-wide text-cream-text uppercase"
+              class="mobile-link block py-1 text-sm tracking-wide text-white-text uppercase"
             >
               {item.label}
             </a>
