@@ -1,12 +1,13 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
-const { hero } = await getContent();
+const { hero, editable } = await getContent();
 ---
 
 <section
   id="top"
   class="relative overflow-hidden bg-forest text-cream-text"
+  {...editable.hero}
 >
   <!--
     Fern background goes here (decorative, NOT editable in CMS).

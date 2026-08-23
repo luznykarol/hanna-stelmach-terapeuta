@@ -1,9 +1,9 @@
 ---
 import { getContent } from '../lib/content';
-const { contact } = await getContent();
+const { contact, editable } = await getContent();
 ---
 
-<section id={contact.id} class="bg-sage text-forest-deep">
+<section id={contact.id} class="bg-sage text-forest-deep" {...editable.contact}>
   <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
     <h2 class="mb-12 text-center text-4xl sm:text-5xl md:text-6xl">
       {contact.heading}

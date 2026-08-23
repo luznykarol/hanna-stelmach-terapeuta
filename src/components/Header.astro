@@ -1,9 +1,9 @@
 ---
 import { getContent } from '../lib/content';
-const { site } = await getContent();
+const { site, editable } = await getContent();
 ---
 
-<header class="absolute inset-x-0 top-0 z-50">
+<header class="absolute inset-x-0 top-0 z-50" {...editable.siteSettings}>
   <nav
     class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"
     aria-label="Główna nawigacja"

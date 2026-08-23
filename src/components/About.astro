@@ -1,9 +1,9 @@
 ---
 import { getContent } from '../lib/content';
-const { about } = await getContent();
+const { about, editable } = await getContent();
 ---
 
-<section id={about.id} class="bg-sage-light text-ink">
+<section id={about.id} class="bg-sage text-ink" {...editable.about}>
   <div
     class="mx-auto grid max-w-5xl items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[280px_1fr] md:gap-14 md:py-28"
   >

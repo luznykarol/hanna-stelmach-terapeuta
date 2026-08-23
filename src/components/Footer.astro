@@ -1,11 +1,11 @@
 ---
 import { getContent } from '../lib/content';
-const { footer, site } = await getContent();
+const { footer, site, editable } = await getContent();
 
 const year = 2026;
 ---
 
-<footer class="bg-paper text-ink">
+<footer class="bg-paper text-ink" {...editable.siteSettings}>
   <div
     class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 sm:flex-row sm:px-8"
   >

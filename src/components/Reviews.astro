@@ -1,6 +1,6 @@
 ---
 import { getContent } from '../lib/content';
-const { reviews } = await getContent();
+const { reviews, editable } = await getContent();
 
 /*
   Reviews are rendered by the official ZnanyLekarz widget.
@@ -14,9 +14,9 @@ const { reviews } = await getContent();
 const widgetInstalled = false;
 ---
 
-<section id={reviews.id} class="bg-forest text-cream-text">
+<section id={reviews.id} class="bg-forest text-cream-text" {...editable.reviews}>
   <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-    <h2 class="mb-10 text-right text-4xl sm:text-5xl md:text-6xl">
+    <h2 class="mb-10 text-center text-4xl sm:text-5xl md:text-6xl">
       {reviews.heading}
     </h2>
 
