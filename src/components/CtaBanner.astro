@@ -1,13 +1,20 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+import Fern from './Fern.astro';
+import topTop from '../assets/img/top_top.png';
 const { ctaBanner, editable } = await getContent();
 ---
 
 <section class="relative overflow-hidden bg-white text-forest-deep" {...editable.ctaBanner}>
-  <!-- Decorative fern accents live here (not editable in CMS). -->
+  <!-- Decorative fern accent (not editable in CMS). -->
+  <Fern
+    src={topTop}
+    speed="2"
+    class="-top-3 right-2 w-[26vw] max-w-[190px] opacity-90 sm:right-8"
+  />
   <div
-    class="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-16 text-center sm:px-8 md:py-20"
+    class="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-16 text-center sm:px-8 md:py-20"
   >
     <h2 class="text-4xl sm:text-5xl md:text-6xl">{ctaBanner.heading}</h2>
     <BookingButton variant="dark" />

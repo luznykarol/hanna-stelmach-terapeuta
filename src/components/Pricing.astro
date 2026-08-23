@@ -1,11 +1,28 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+import Fern from './Fern.astro';
+import cennikLeft from '../assets/img/cennik_left.png';
+import cennikRight from '../assets/img/cennik_right.png';
 const { pricing, editable } = await getContent();
 ---
 
-<section id={pricing.id} class="bg-sage text-forest-deep" {...editable.pricing}>
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+<section
+  id={pricing.id}
+  class="relative overflow-hidden bg-sage text-forest-deep"
+  {...editable.pricing}
+>
+  <Fern
+    src={cennikLeft}
+    speed="2"
+    class="-left-16 bottom-6 w-[48vw] max-w-[420px] sm:w-[34vw]"
+  />
+  <Fern
+    src={cennikRight}
+    speed="-3"
+    class="-top-4 right-4 w-[70px] sm:right-10 sm:w-[110px]"
+  />
+  <div class="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
     <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
       <h2 class="text-4xl sm:text-5xl">{pricing.heading}</h2>
       <p class="text-sm leading-relaxed text-forest-deep/80 sm:text-base">
