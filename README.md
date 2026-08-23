@@ -58,9 +58,28 @@ Docelowo — do ustalenia z klientką (Calendly lub inny kalendarz); wystarczy z
 `bookingUrl`.
 
 ### Storyblok (CMS)
-Kolejny etap: zamodelować komponenty odpowiadające `content.ts` i podmienić import
-danych na fetch ze Storyblok. Ustawić `STORYBLOK_TOKEN` w Netlify + Build Hook,
-aby publikacja treści wyzwalała redeploy.
+Integracja jest już w kodzie: `src/lib/content.ts` pobiera story `home` i mapuje
+bloki na strukturę z `content.ts`, z fallbackiem per-pole do placeholderów.
+Region: **EU**. Token (Preview) trzymany w `.env` jako `STORYBLOK_TOKEN`.
+
+**Jednorazowa konfiguracja przestrzeni** (space ID `294737692191178`):
+
+```bash
+# 1. Wgraj schematy komponentów (wymaga logowania do Storyblok)
+npx storyblok@3 login --region eu
+npx storyblok@3 push-components ./storyblok/components.json --space 294737692191178
+```
+
+Następnie w panelu Storyblok: otwórz story **Home** → usuń demowe bloki
+(teaser/grid) → w polu `body` dodaj bloki: `site_settings`, `hero`, `about`,
+`therapy`, `cta_banner`, `pricing`, `reviews`, `contact` → uzupełnij treści →
+**Publish**.
+
+**Netlify:**
+- `STORYBLOK_TOKEN` w *Site settings → Environment variables* (bez tego build
+  używa placeholderów).
+- Build Hook (*Build & deploy → Build hooks*) → wklej URL w Storyblok jako webhook
+  (*Settings → Webhooks*), aby publikacja treści przebudowywała stronę.
 
 ## Deploy (Netlify)
 Konfiguracja w `netlify.toml` (build `npm run build`, publish `dist`, Node 22).
