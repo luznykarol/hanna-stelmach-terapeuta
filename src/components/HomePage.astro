@@ -1,0 +1,26 @@
+---
+// Composed one-pager, shared by the `/` route (production) and the `/home`
+// route (used by the Storyblok Visual Editor, which loads the home story's
+// full_slug "home" in its preview iframe).
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Therapy from './Therapy.astro';
+import CtaBanner from './CtaBanner.astro';
+import Pricing from './Pricing.astro';
+import Reviews from './Reviews.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+---
+
+<Header />
+<main>
+  <Hero />
+  <About />
+  <Therapy />
+  <CtaBanner />
+  <Pricing />
+  <Reviews />
+  <Contact />
+</main>
+<Footer />

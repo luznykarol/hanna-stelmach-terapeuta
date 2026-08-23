@@ -1,0 +1,11 @@
+---
+// Mirror of the homepage served at /home. The Storyblok Visual Editor loads the
+// home story's full_slug ("home") in its preview iframe, so this route makes the
+// preview resolve. Excluded from indexing; canonical points at the real root.
+import Layout from '../layouts/Layout.astro';
+import HomePage from '../components/HomePage.astro';
+---
+
+<Layout canonicalPath="/" noindex>
+  <HomePage />
+</Layout>

@@ -4,14 +4,20 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  /** Override the canonical URL (e.g. the /home editor route points at /). */
+  canonicalPath?: string;
+  /** Exclude from search indexing (used by the /home Visual Editor route). */
+  noindex?: boolean;
 }
 
 const {
   title = 'Hanna Stelmach — psycholog, psychoterapeuta | Warszawa',
   description = 'Profesjonalne wsparcie psychoterapeutyczne dla dorosłych i młodzieży w bezpiecznej atmosferze. Gabinet w Warszawie.',
+  canonicalPath,
+  noindex = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -25,6 +31,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
