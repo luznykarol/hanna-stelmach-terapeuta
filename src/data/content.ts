@@ -77,17 +77,6 @@ export const reviews = {
     'https://www.znanylekarz.pl/hanna-stelmach/psycholog-psychoterapeuta/warszawa',
 };
 
-export const faq = {
-  id: 'faq',
-  heading: 'FAQ',
-  items: Array.from({ length: 5 }, () => ({
-    question:
-      'Dlaczego cośtam Nemo enim ipsam voluptatem quia voluptas sit aspernatur?',
-    answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-  })),
-};
-
 export const contact = {
   id: 'kontakt',
   heading: 'kontakt',
