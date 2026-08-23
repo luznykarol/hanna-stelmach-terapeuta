@@ -1,0 +1,95 @@
+---
+import { site } from '../data/content';
+---
+
+<header class="absolute inset-x-0 top-0 z-50">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"
+    aria-label="Główna nawigacja"
+  >
+    <!-- Logo -->
+    <a href="#top" class="flex flex-col leading-tight text-cream-text">
+      <span class="font-display text-lg sm:text-xl">{site.logoLine1}</span>
+      <span class="text-[0.7rem] tracking-[0.3em] uppercase opacity-80">
+        {site.logoLine2}
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden items-center gap-8 md:flex">
+      {
+        site.nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="text-sm tracking-wide text-cream-text/90 uppercase transition-opacity hover:opacity-70"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Mobile toggle -->
+    <button
+      type="button"
+      id="menu-toggle"
+      class="flex h-10 w-10 items-center justify-center text-cream-text md:hidden"
+      aria-label="Otwórz menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden bg-forest/95 px-5 pb-6 backdrop-blur-sm md:hidden"
+  >
+    <ul class="flex flex-col gap-4">
+      {
+        site.nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="mobile-link block py-1 text-sm tracking-wide text-cream-text uppercase"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  const close = () => {
+    menu?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Otwórz menu');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    if (isOpen) {
+      close();
+    } else {
+      menu?.classList.remove('hidden');
+      toggle?.setAttribute('aria-expanded', 'true');
+      toggle?.setAttribute('aria-label', 'Zamknij menu');
+    }
+  });
+
+  document
+    .querySelectorAll('.mobile-link')
+    .forEach((link) => link.addEventListener('click', close));
+</script>

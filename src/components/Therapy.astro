@@ -1,0 +1,46 @@
+---
+import { therapy } from '../data/content';
+---
+
+<section id={therapy.id} class="bg-forest text-cream-text">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+    <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
+      <h2 class="text-4xl sm:text-5xl">{therapy.heading}</h2>
+      <p class="text-sm leading-relaxed text-cream-text/80 sm:text-base">
+        {therapy.intro}
+      </p>
+    </div>
+
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        therapy.items.map((item) => (
+          <li class="group flex flex-col overflow-hidden rounded-lg bg-forest-deep/40">
+            <div class="aspect-[4/3] w-full overflow-hidden bg-sage/25">
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={item.imageAlt}
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              ) : (
+                <div
+                  class="flex h-full w-full items-center justify-center text-xs text-cream-text/50"
+                  aria-hidden="true"
+                >
+                  zdjęcie
+                </div>
+              )}
+            </div>
+            <div class="p-5">
+              <h3 class="mb-2 text-xl">{item.name}</h3>
+              <p class="text-sm leading-relaxed text-cream-text/75">
+                {item.description}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

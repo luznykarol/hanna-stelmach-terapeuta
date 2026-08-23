@@ -1,0 +1,30 @@
+---
+import { site } from '../data/content';
+
+interface Props {
+  /** Visual variant: light = for dark backgrounds, dark = for light backgrounds. */
+  variant?: 'light' | 'dark';
+  class?: string;
+}
+
+const { variant = 'dark', class: className = '' } = Astro.props;
+
+const base =
+  'inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2';
+
+const variants = {
+  light:
+    'bg-cream text-forest-deep hover:bg-white focus-visible:outline-cream',
+  dark: 'bg-forest text-cream-text hover:bg-forest-deep focus-visible:outline-forest',
+};
+---
+
+<a
+  href={site.bookingUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class={`${base} ${variants[variant]} ${className}`}
+>
+  {site.bookingLabel}
+  <span aria-hidden="true">→</span>
+</a>

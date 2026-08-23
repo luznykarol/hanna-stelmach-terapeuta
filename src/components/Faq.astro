@@ -1,0 +1,32 @@
+---
+import { faq } from '../data/content';
+---
+
+<section id={faq.id} class="bg-sage-light text-forest-deep">
+  <div class="mx-auto max-w-5xl px-5 py-20 sm:px-8 md:py-28">
+    <h2 class="mb-10 text-4xl sm:text-5xl md:text-6xl">{faq.heading}</h2>
+
+    <div class="divide-y divide-forest-deep/15 border-y border-forest-deep/15">
+      {
+        faq.items.map((item) => (
+          <details class="group">
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-sm font-medium sm:text-base [&::-webkit-details-marker]:hidden"
+            >
+              <span>{item.question}</span>
+              <span
+                class="shrink-0 text-2xl leading-none transition-transform duration-200 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <p class="pr-10 pb-5 text-sm leading-relaxed text-ink-soft">
+              {item.answer}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

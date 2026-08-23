@@ -1,0 +1,64 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens extracted from the Figma export.
+  Colors are approximated from the PDF render and should be refined once the
+  real design tokens / assets are available.
+
+  Fonts: the design uses "Bodoni URW" (headings) and "Optimistic" (body).
+  Both are commercial / non-public, so as an interim we load close free
+  substitutes from Google Fonts (Bodoni Moda + Mulish) — see Layout.astro.
+  When licensed font files are delivered, drop them into /public/fonts,
+  add @font-face rules below, and swap the --font-* values.
+*/
+
+@theme {
+  /* Brand greens */
+  --color-forest: #3c4a34; /* dark green sections (hero, terapia, opinie) */
+  --color-forest-deep: #2e3826; /* deepest green / text on light */
+  --color-sage: #9aa986; /* medium sage (cennik, kontakt) */
+  --color-sage-light: #c8d0ba; /* light sage (o mnie) */
+  --color-cream: #f4f2e9; /* off-white background (pomóc ci jakoś, cards) */
+  --color-paper: #ffffff;
+
+  /* Semantic text colors */
+  --color-ink: #2e3826; /* default dark text on light backgrounds */
+  --color-ink-soft: #55604a;
+  --color-cream-text: #f4f2e9; /* text on dark backgrounds */
+
+  /* Fonts */
+  --font-display: 'Bodoni Moda', 'Bodoni URW', ui-serif, Georgia, serif;
+  --font-body: 'Mulish', 'Optimistic', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: var(--color-cream);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

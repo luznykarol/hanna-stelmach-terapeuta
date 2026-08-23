@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Astro outputs a fully static site by default, so no adapter/redirects are needed here.
+# When Storyblok is added, set STORYBLOK_TOKEN in Netlify → Site settings → Environment variables,
+# and add a Build Hook (Site settings → Build & deploy → Build hooks) so publishing content
+# in Storyblok triggers a redeploy.

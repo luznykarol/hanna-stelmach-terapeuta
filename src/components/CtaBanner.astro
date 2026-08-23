@@ -1,0 +1,14 @@
+---
+import { ctaBanner } from '../data/content';
+import BookingButton from './BookingButton.astro';
+---
+
+<section class="relative overflow-hidden bg-cream text-forest-deep">
+  <!-- Decorative fern accents live here (not editable in CMS). -->
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-center gap-7 px-5 py-16 text-center sm:px-8 md:py-20"
+  >
+    <h2 class="text-4xl sm:text-5xl md:text-6xl">{ctaBanner.heading}</h2>
+    <BookingButton variant="dark" />
+  </div>
+</section>

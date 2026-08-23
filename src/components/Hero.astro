@@ -1,0 +1,43 @@
+---
+import { hero } from '../data/content';
+import BookingButton from './BookingButton.astro';
+---
+
+<section
+  id="top"
+  class="relative overflow-hidden bg-forest text-cream-text"
+>
+  <!--
+    Fern background goes here (decorative, NOT editable in CMS).
+    Placeholder: soft radial glow + a "moon" circle echoing the Figma layout.
+    Replace with the exported fern artwork:
+    e.g. <img src="/ferns/hero.png" class="pointer-events-none absolute inset-0 ..." aria-hidden="true" />
+  -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-60"
+    aria-hidden="true"
+    style="background: radial-gradient(120% 90% at 85% 15%, rgba(154,169,134,0.35), transparent 55%), radial-gradient(80% 80% at 0% 100%, rgba(46,56,38,0.6), transparent 60%);"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute top-24 right-8 h-28 w-28 rounded-full bg-cream/90 blur-[1px] sm:h-40 sm:w-40 md:right-24"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-center px-5 pt-40 pb-24 sm:px-8"
+  >
+    <h1
+      class="max-w-3xl text-5xl leading-[1.05] font-normal sm:text-6xl md:text-7xl"
+    >
+      {hero.title}
+    </h1>
+    <p class="mt-6 max-w-md text-base leading-relaxed text-cream-text/85 sm:text-lg">
+      {hero.subtitle}
+    </p>
+    <div class="mt-9">
+      <BookingButton variant="light" />
+    </div>
+  </div>
+</section>

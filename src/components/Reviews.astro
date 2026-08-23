@@ -1,0 +1,51 @@
+---
+import { reviews } from '../data/content';
+
+/*
+  Reviews are rendered by the official ZnanyLekarz widget.
+  To activate:
+    1. Log in to ZnanyLekarz → "Kanały umawiania" → "Utwórz widget".
+    2. Choose the opinions ("Opinie") widget and copy the generated snippet.
+    3. Paste the <script>/<div> markup into the placeholder below (Astro renders
+       raw HTML fine; the widget's own <script> will execute on the client).
+  Until then we show a placeholder with a link to the profile.
+*/
+const widgetInstalled = false;
+---
+
+<section id={reviews.id} class="bg-forest text-cream-text">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+    <h2 class="mb-10 text-right text-4xl sm:text-5xl md:text-6xl">
+      {reviews.heading}
+    </h2>
+
+    {
+      widgetInstalled ? (
+        <div id="zl-widget-container">
+          {/* Paste ZnanyLekarz widget markup here. */}
+        </div>
+      ) : (
+        <div
+          class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/25 px-6 py-14 text-center"
+        >
+          <p class="max-w-md text-sm text-cream-text/70">
+            Miejsce na widget opinii ZnanyLekarz. Po wygenerowaniu widgetu w
+            panelu ZnanyLekarz wklej jego kod w komponencie
+            <code class="mx-1 rounded bg-forest-deep/60 px-1.5 py-0.5">
+              Reviews.astro
+            </code>
+            .
+          </p>
+          <a
+            href={reviews.znanylekarzProfileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm underline underline-offset-4 hover:opacity-70"
+          >
+            Zobacz opinie na ZnanyLekarz →
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import { pricing } from '../data/content';
+import BookingButton from './BookingButton.astro';
+---
+
+<section id={pricing.id} class="bg-sage text-forest-deep">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+    <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
+      <h2 class="text-4xl sm:text-5xl">{pricing.heading}</h2>
+      <p class="text-sm leading-relaxed text-forest-deep/80 sm:text-base">
+        {pricing.intro}
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:max-w-3xl lg:mx-auto">
+      {
+        pricing.items.map((item) => (
+          <article class="flex flex-col items-center gap-5 rounded-xl bg-cream px-8 py-10 text-center">
+            <h3 class="text-lg text-ink-soft">{item.name}</h3>
+            <p class="font-display text-4xl text-forest-deep">
+              {item.price}
+              <span class="ml-1 text-sage">{item.duration}</span>
+            </p>
+            <BookingButton variant="dark" />
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
