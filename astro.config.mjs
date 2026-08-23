@@ -3,8 +3,13 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { storyblok } from '@storyblok/astro';
 import { loadEnv } from 'vite';
+import mkcert from 'vite-plugin-mkcert';
 
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
+
+// HTTPS is only needed for local dev, so the Storyblok Visual Editor (which runs
+// over HTTPS and refuses http://localhost in its iframe) can load the preview.
+const isDev = process.argv.includes('dev');
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,6 +27,8 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    // mkcert generates a locally-trusted cert and serves dev over HTTPS
+    // (https://localhost:4321). Only in dev — production is a static build.
+    plugins: isDev ? [tailwindcss(), mkcert()] : [tailwindcss()],
   },
 });
