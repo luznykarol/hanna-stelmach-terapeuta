@@ -1,6 +1,6 @@
 ---
 import { getContent } from '../lib/content';
-import logo from '../assets/svg/hanna_stelmach_logo.svg';
+import Logo from './Logo.astro';
 const { site, editable } = await getContent();
 
 const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
@@ -12,15 +12,11 @@ const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
     aria-label="Główna nawigacja"
   >
     <!-- Logo -->
-    <a href="#top" class="block" aria-label={logoAlt}>
-      <img
-        src={logo.src}
-        width={logo.width}
-        height={logo.height}
-        alt={logoAlt}
-        class="h-9 w-auto sm:h-11"
-      />
-    </a>
+    <Logo
+      href="#top"
+      label={logoAlt}
+      class="text-white [&>svg]:h-9 [&>svg]:w-auto sm:[&>svg]:h-11"
+    />
 
     <!-- Desktop nav -->
     <ul class="hidden items-center gap-8 md:flex">

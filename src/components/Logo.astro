@@ -1,0 +1,33 @@
+---
+// Site logo. Not editable in the CMS — a fixed brand asset.
+// The SVG is inlined (no extra request, colorable via CSS): its fixed
+// width/height are dropped so CSS controls the size, and the hardcoded white
+// fill becomes currentColor so the logo takes the surrounding text color.
+import logoRaw from '../assets/svg/hanna_stelmach_logo.svg?raw';
+
+interface Props {
+  /** If set, the logo is wrapped in a link to this href (e.g. "#top"). */
+  href?: string;
+  /** Accessible label for the logo. */
+  label?: string;
+  /** Extra classes. Use `text-*` to color and `[&>svg]:h-*` to size. */
+  class?: string;
+}
+
+const { href, label = 'Hanna Stelmach — terapia', class: className = '' } =
+  Astro.props;
+
+const logoSvg = logoRaw
+  .replace(/\s(?:width|height)="[^"]*"/g, '')
+  .replace(/fill="white"/g, 'fill="currentColor"');
+
+const classes = `inline-block ${className}`;
+---
+
+{
+  href ? (
+    <a href={href} aria-label={label} class={classes} set:html={logoSvg} />
+  ) : (
+    <span role="img" aria-label={label} class={classes} set:html={logoSvg} />
+  )
+}

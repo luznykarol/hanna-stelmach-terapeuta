@@ -1,15 +1,21 @@
 ---
 import { getContent } from '../lib/content';
+import Logo from './Logo.astro';
 const { footer, site, editable } = await getContent();
 
 const year = 2026;
+const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
 ---
 
 <footer class="bg-white text-ink" {...editable.siteSettings}>
   <div
     class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 sm:flex-row sm:px-8"
   >
-    <span class="font-display text-lg">{site.logoLine1}</span>
+    <Logo
+      href="#top"
+      label={logoAlt}
+      class="text-forest-deep [&>svg]:h-7 [&>svg]:w-auto"
+    />
     <span class="text-sm text-ink-soft">{footer.text}</span>
     <span class="text-xs text-ink-soft">© {year}</span>
   </div>
