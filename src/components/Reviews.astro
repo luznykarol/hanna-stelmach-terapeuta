@@ -1,7 +1,5 @@
 ---
 import { getContent } from '../lib/content';
-import Fern from './Fern.astro';
-import opinieRight from '../assets/img/opinie_right.png';
 const { reviews, editable } = await getContent();
 
 /*
@@ -16,17 +14,8 @@ const { reviews, editable } = await getContent();
 const widgetInstalled = false;
 ---
 
-<section
-  id={reviews.id}
-  class="relative overflow-hidden bg-forest text-white"
-  {...editable.reviews}
->
-  <Fern
-    src={opinieRight}
-    speed="-4"
-    class="-right-20 top-8 w-[55vw] max-w-[480px] opacity-80 sm:w-[38vw]"
-  />
-  <div class="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
+<section id={reviews.id} class="bg-forest text-white" {...editable.reviews}>
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
     <h2 class="mb-10 text-center text-4xl sm:text-5xl md:text-6xl">
       {reviews.heading}
     </h2>
@@ -41,7 +30,8 @@ const widgetInstalled = false;
           class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/25 px-6 py-14 text-center"
         >
           <p class="max-w-md text-sm text-white/70">
-            widget
+            Miejsce na widget opinii ZnanyLekarz. Po wygenerowaniu widgetu w
+            panelu ZnanyLekarz wklej jego kod w komponencie
             <code class="mx-1 rounded bg-forest-deep/60 px-1.5 py-0.5">
               Reviews.astro
             </code>
