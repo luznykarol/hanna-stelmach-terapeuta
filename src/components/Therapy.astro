@@ -3,11 +3,11 @@ import { getContent } from '../lib/content';
 const { therapy, editable } = await getContent();
 ---
 
-<section id={therapy.id} class="bg-forest text-white-text" {...editable.therapy}>
+<section id={therapy.id} class="bg-forest text-white" {...editable.therapy}>
   <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
     <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
       <h2 class="text-4xl sm:text-5xl">{therapy.heading}</h2>
-      <p class="text-sm leading-relaxed text-white-text/80 sm:text-base">
+      <p class="text-sm leading-relaxed text-white/80 sm:text-base">
         {therapy.intro}
       </p>
     </div>
@@ -29,7 +29,7 @@ const { therapy, editable } = await getContent();
                 />
               ) : (
                 <div
-                  class="flex h-full w-full items-center justify-center text-xs text-white-text/50"
+                  class="flex h-full w-full items-center justify-center text-xs text-white/50"
                   aria-hidden="true"
                 >
                   zdjęcie
@@ -38,7 +38,7 @@ const { therapy, editable } = await getContent();
             </div>
             <div class="p-5">
               <h3 class="mb-2 text-xl">{item.name}</h3>
-              <p class="text-sm leading-relaxed text-white-text/75">
+              <p class="text-sm leading-relaxed text-white/75">
                 {item.description}
               </p>
             </div>
