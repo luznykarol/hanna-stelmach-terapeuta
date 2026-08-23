@@ -1,21 +1,26 @@
 ---
 import { getContent } from '../lib/content';
 import Logo from './Logo.astro';
+import BookingButton from './BookingButton.astro';
 const { site, editable } = await getContent();
 
 const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
 ---
 
-<header class="absolute inset-x-0 top-0 z-50" {...editable.siteSettings}>
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+  {...editable.siteSettings}
+>
   <nav
-    class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8"
+    class="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 transition-all duration-300 sm:px-8"
     aria-label="Główna nawigacja"
   >
     <!-- Logo -->
     <Logo
       href="#top"
       label={logoAlt}
-      class="text-white [&>svg]:h-9 [&>svg]:w-auto sm:[&>svg]:h-11"
+      class="relative z-50 text-white [&>svg]:h-9 [&>svg]:w-auto sm:[&>svg]:h-11"
     />
 
     <!-- Desktop nav -->
@@ -34,65 +39,164 @@ const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
       }
     </ul>
 
-    <!-- Mobile toggle -->
+    <!-- Mobile toggle (morphing hamburger) -->
     <button
       type="button"
       id="menu-toggle"
-      class="flex h-10 w-10 items-center justify-center text-white md:hidden"
+      class="menu-toggle relative z-50 flex h-10 w-10 items-center justify-center text-white md:hidden"
       aria-label="Otwórz menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-      </svg>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
     </button>
   </nav>
-
-  <!-- Mobile menu -->
-  <div
-    id="mobile-menu"
-    class="hidden bg-forest px-5 pb-6 md:hidden"
-  >
-    <ul class="flex flex-col gap-4">
-      {
-        site.nav.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              class="mobile-link block py-1 text-sm tracking-wide text-white uppercase"
-            >
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
 </header>
 
+<!-- Full-screen mobile menu overlay -->
+<div
+  id="mobile-menu"
+  class="mobile-menu fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 bg-forest px-6 md:hidden"
+  aria-hidden="true"
+>
+  <ul class="flex flex-col items-center gap-7 text-center">
+    {
+      site.nav.map((item, i) => (
+        <li class="mobile-link-item" style={`--i:${i}`}>
+          <a
+            href={item.href}
+            class="font-display text-3xl tracking-wide text-white transition-opacity hover:opacity-70"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="mobile-link-item" style={`--i:${site.nav.length}`}>
+    <BookingButton variant="light" />
+  </div>
+</div>
+
+<style>
+  :global(html) {
+    /* keep anchored sections clear of the fixed header */
+    scroll-padding-top: 5rem;
+  }
+
+  /* Scrolled state: give the fixed header a background so white text stays
+     readable over the light sections below the hero. */
+  #site-header.is-scrolled {
+    background-color: color-mix(in srgb, var(--color-forest) 95%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  }
+  #site-header.is-scrolled nav {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Morphing hamburger → X */
+  .menu-icon {
+    position: relative;
+    width: 24px;
+    height: 16px;
+  }
+  .menu-icon span {
+    position: absolute;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition:
+      transform 0.3s ease,
+      opacity 0.2s ease,
+      top 0.3s ease;
+  }
+  .menu-icon span:nth-child(1) {
+    top: 0;
+  }
+  .menu-icon span:nth-child(2) {
+    top: 7px;
+  }
+  .menu-icon span:nth-child(3) {
+    top: 14px;
+  }
+  .menu-toggle[aria-expanded='true'] .menu-icon span:nth-child(1) {
+    top: 7px;
+    transform: rotate(45deg);
+  }
+  .menu-toggle[aria-expanded='true'] .menu-icon span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded='true'] .menu-icon span:nth-child(3) {
+    top: 7px;
+    transform: rotate(-45deg);
+  }
+
+  /* Overlay fade/slide-in */
+  .mobile-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease,
+      visibility 0.35s;
+  }
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Staggered link reveal */
+  .mobile-link-item {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+  .mobile-menu.is-open .mobile-link-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(0.08s * var(--i) + 0.12s);
+  }
+</style>
+
 <script>
+  const header = document.getElementById('site-header');
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
 
-  const close = () => {
-    menu?.classList.add('hidden');
-    toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Otwórz menu');
+  // Background on scroll
+  const onScroll = () =>
+    header?.classList.toggle('is-scrolled', window.scrollY > 20);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Open / close the overlay menu
+  const setOpen = (open: boolean) => {
+    menu?.classList.toggle('is-open', open);
+    menu?.setAttribute('aria-hidden', String(!open));
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Zamknij menu' : 'Otwórz menu');
+    document.body.style.overflow = open ? 'hidden' : '';
   };
 
-  toggle?.addEventListener('click', () => {
-    const isOpen = !menu?.classList.contains('hidden');
-    if (isOpen) {
-      close();
-    } else {
-      menu?.classList.remove('hidden');
-      toggle?.setAttribute('aria-expanded', 'true');
-      toggle?.setAttribute('aria-label', 'Zamknij menu');
-    }
+  toggle?.addEventListener('click', () =>
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true'),
+  );
+  menu
+    ?.querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
   });
-
-  document
-    .querySelectorAll('.mobile-link')
-    .forEach((link) => link.addEventListener('click', close));
 </script>
