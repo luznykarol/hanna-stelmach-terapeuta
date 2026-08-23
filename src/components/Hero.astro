@@ -1,6 +1,7 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+import ParallaxFerns from './ParallaxFerns.astro';
 const { hero, editable } = await getContent();
 ---
 
@@ -9,12 +10,8 @@ const { hero, editable } = await getContent();
   class="relative overflow-hidden bg-forest text-white"
   {...editable.hero}
 >
-  <!--
-    Fern background goes here (decorative, NOT editable in CMS).
-    Placeholder: soft radial glow + a "moon" circle echoing the Figma layout.
-    Replace with the exported fern artwork:
-    e.g. <img src="/ferns/hero.png" class="pointer-events-none absolute inset-0 ..." aria-hidden="true" />
-  -->
+  <!-- Ambient background: soft radial glow + a "moon" circle echoing the Figma layout. -->
+
   <div
     class="pointer-events-none absolute inset-0 opacity-60"
     aria-hidden="true"
@@ -27,8 +24,11 @@ const { hero, editable } = await getContent();
   >
   </div>
 
+  <!-- Decorative fern artwork with parallax on scroll -->
+  <ParallaxFerns />
+
   <div
-    class="relative mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-center px-5 pt-40 pb-24 sm:px-8"
+    class="relative z-10 mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-center px-5 pt-40 pb-24 sm:px-8"
   >
     <h1
       class="max-w-3xl text-5xl leading-[1.05] font-normal sm:text-6xl md:text-7xl"

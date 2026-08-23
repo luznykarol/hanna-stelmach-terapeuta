@@ -1,0 +1,42 @@
+---
+// Decorative fern artwork for the top of the page (NOT editable in the CMS).
+// Positioned in the hero corners and drifting at different speeds on scroll
+// (parallax via Rellax). Purely decorative → aria-hidden + pointer-events-none.
+import { Image } from 'astro:assets';
+import topLeft from '../assets/img/top_left.png';
+import topRight from '../assets/img/top_right.png';
+import topTop from '../assets/img/top_top.png';
+---
+
+<div class="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
+  <Image
+    src={topLeft}
+    alt=""
+    class="rellax absolute -top-8 -left-6 w-[42vw] max-w-[360px] sm:w-[30vw]"
+    data-rellax-speed="-3"
+    loading="eager"
+  />
+  <Image
+    src={topTop}
+    alt=""
+    class="rellax absolute -top-4 left-[36%] w-[30vw] max-w-[300px] sm:w-[22vw]"
+    data-rellax-speed="3"
+    loading="eager"
+  />
+  <Image
+    src={topRight}
+    alt=""
+    class="rellax absolute -top-6 -right-6 w-[40vw] max-w-[340px] sm:w-[26vw]"
+    data-rellax-speed="-6"
+    loading="eager"
+  />
+</div>
+
+<script>
+  import Rellax from 'rellax';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion && document.querySelector('.rellax')) {
+    new Rellax('.rellax', { center: false, round: true });
+  }
+</script>
