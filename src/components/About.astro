@@ -1,15 +1,16 @@
 ---
 import { getContent } from '../lib/content';
+import Container from './Container.astro';
+import Heading from './Heading.astro';
+import Paragraph from './Paragraph.astro';
 const { about, editable } = await getContent();
 ---
 
 <section id={about.id} class="bg-sage text-ink" {...editable.about}>
-  <div
-    class="mx-auto grid max-w-5xl items-center gap-10 px-5 py-20 sm:px-8 md:grid-cols-[280px_1fr] md:gap-14 md:py-28"
-  >
+  <Container class="grid items-center gap-10 py-20 md:grid-cols-2 md:gap-14 md:py-28">
     <div class="mx-auto md:mx-0">
       <div
-        class="h-56 w-56 overflow-hidden rounded-full bg-sage/60 sm:h-64 sm:w-64"
+        class=" overflow-hidden rounded-full bg-white size-64 lg:size-140.25"
       >
         {
           about.image ? (
@@ -24,7 +25,6 @@ const { about, editable } = await getContent();
               class="flex h-full w-full items-center justify-center text-sm text-ink-soft"
               aria-hidden="true"
             >
-              zdjęcie
             </div>
           )
         }
@@ -32,10 +32,8 @@ const { about, editable } = await getContent();
     </div>
 
     <div>
-      <h2 class="mb-6 text-4xl sm:text-5xl">{about.heading}</h2>
-      <p class="max-w-prose text-sm leading-relaxed text-ink-soft sm:text-base">
-        {about.text}
-      </p>
+      <Heading as="h2" align="left" class="mb-6">{about.heading}</Heading>
+      <Paragraph class="max-w-prose text-ink-soft">{about.text}</Paragraph>
     </div>
-  </div>
+  </Container>
 </section>

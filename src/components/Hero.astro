@@ -2,6 +2,9 @@
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
 import ParallaxFerns from './ParallaxFerns.astro';
+import Container from './Container.astro';
+import Heading from './Heading.astro';
+import Paragraph from './Paragraph.astro';
 const { hero, editable } = await getContent();
 ---
 
@@ -19,7 +22,7 @@ const { hero, editable } = await getContent();
   >
   </div>
   <div
-    class="pointer-events-none absolute top-17.5 -right-5 lg:top-24 lg:right-8 h-28 w-28 rounded-full bg-white/90 sm:h-40 sm:w-40 md:right-24"
+    class="pointer-events-none absolute top-17.5 -right-5 lg:top-[123px] lg:right-[111px] lg:size-73 rounded-full bg-white size-40 md:right-24"
     aria-hidden="true"
   >
   </div>
@@ -28,17 +31,13 @@ const { hero, editable } = await getContent();
   <ParallaxFerns />
 
   <div
-    class="relative z-10 mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-center px-5 pt-40 pb-24 sm:px-8"
+    class="relative z-10 flex flex-col gap-10.5 mx-auto min-h-[90vh] justify-center items-center max-w-[560px] px-5 pt-40 pb-24 sm:px-8"
   >
-    <h1
-      class="max-w-3xl text-5xl leading-[1.05] font-normal sm:text-6xl md:text-7xl"
-    >
-      {hero.title}
-    </h1>
-    <p class="mt-6 max-w-md text-base leading-relaxed text-white/85 sm:text-lg">
+    <Heading as="h1" class="text-sage">{hero.title}</Heading>
+    <Paragraph class="max-w-md text-center text-white/85">
       {hero.subtitle}
-    </p>
-    <div class="mt-9">
+    </Paragraph>
+    <div class="flex items-center justify-center">
       <BookingButton variant="light" />
     </div>
   </div>

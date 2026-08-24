@@ -1,7 +1,13 @@
 ---
-// Decorative fern artwork for the top of the page (NOT editable in the CMS).
-// Positioned in the hero corners and drifting at different speeds on scroll
-// (parallax via Rellax). Purely decorative → aria-hidden + pointer-events-none.
+// Decorative fern artwork for the hero (NOT editable in the CMS).
+// Layout mirrors the Figma hero: a tall tilted fern on the left, a fiddlehead
+// hanging from the top-center, and a large ornate curl on the right over the
+// "moon". Rotations come straight from Figma (top_left -28.86°, top_right
+// -120.95°). Purely decorative → aria-hidden + pointer-events-none.
+//
+// Each fern is wrapped: Rellax drives the wrapper's transform (parallax
+// translate) while the inner image carries the rotation — so the two never
+// fight over `transform`. Mobile-first: smaller by default, larger from `lg`.
 import { Image } from 'astro:assets';
 import topLeft from '../assets/img/top_left.png';
 import topRight from '../assets/img/top_right.png';
@@ -9,27 +15,44 @@ import topTop from '../assets/img/top_top.png';
 ---
 
 <div class="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
-  <Image
-    src={topLeft}
-    alt=""
-    class="rellax absolute -top-8 -left-6 w-[42vw] max-w-[360px] sm:w-[30vw]"
-    data-rellax-speed="-3"
-    loading="eager"
-  />
-  <Image
-    src={topTop}
-    alt=""
-    class="rellax absolute -top-4 left-[36%] w-[30vw] max-w-[300px] sm:w-[22vw]"
+  <!-- Top-left tall fern -->
+  <div
+    class="rellax absolute -top-6 -left-14 lg:-top-10 lg:-left-16 "
+    data-rellax-speed="-2"
+  >
+    <Image
+      src={topLeft}
+      alt=""
+      loading="eager"
+      class="w-[40vw] rotate-[28.86deg] lg:h-[1145px] lg:w-[580px]"
+    />
+  </div>
+
+  <!-- Top-center fiddlehead -->
+  <div
+    class="rellax absolute -top-3 left-[30%] lg:-top-6 lg:left-[36%]"
     data-rellax-speed="3"
-    loading="eager"
-  />
-  <Image
-    src={topRight}
-    alt=""
-    class="rellax absolute -top-6 -right-6 w-[40vw] max-w-[340px] sm:w-[26vw]"
-    data-rellax-speed="-6"
-    loading="eager"
-  />
+  >
+    <Image
+      src={topTop}
+      alt=""
+      loading="eager"
+      class="w-[30vw] max-w-[140px] lg:w-[17vw] lg:max-w-[240px]"
+    />
+  </div>
+
+  <!-- Top-right ornate curl -->
+  <div
+    class="rellax absolute -right-16 top-[4%] lg:-right-6 lg:top-[12%]"
+    data-rellax-speed="-5"
+  >
+    <Image
+      src={topRight}
+      alt=""
+      loading="eager"
+      class="w-[54vw] max-w-[230px] rotate-[-71deg] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
+    />
+  </div>
 </div>
 
 <script>

@@ -1,18 +1,19 @@
 ---
 import { getContent } from '../lib/content';
+import Container from './Container.astro';
+import Heading from './Heading.astro';
+import Paragraph from './Paragraph.astro';
 const { therapy, editable } = await getContent();
 ---
 
 <section id={therapy.id} class="bg-forest text-white" {...editable.therapy}>
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-    <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
-      <h2 class="text-4xl sm:text-5xl">{therapy.heading}</h2>
-      <p class="text-sm leading-relaxed text-white/80 sm:text-base">
-        {therapy.intro}
-      </p>
+  <Container class="py-20 md:py-28">
+     <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28">
+      <Heading as="h2" align="left">{therapy.heading}</Heading>
+      <Paragraph class="text-white/80">{therapy.intro}</Paragraph>
     </div>
 
-    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="grid gap-6 grid-cols-1 md:grid-cols-2">
       {
         therapy.items.map((item, i) => (
           <li
@@ -46,5 +47,5 @@ const { therapy, editable } = await getContent();
         ))
       }
     </ul>
-  </div>
+  </Container>
 </section>

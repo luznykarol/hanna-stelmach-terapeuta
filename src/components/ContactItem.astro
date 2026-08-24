@@ -1,7 +1,8 @@
 ---
-// One contact detail: a white circle with a fern icon, a title and a value
-// (optionally a link). Extra markup (e.g. a list of social links) can be passed
-// via the default slot instead of `value`.
+// One contact detail: a fern icon shown at its natural size, sitting in front of
+// a white circle (the circle is the icon's background — the icon is NOT clipped
+// to it and overflows top/bottom). Then a title and a value (optionally a link).
+// Extra markup (e.g. a list of social links) can be passed via the default slot.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -16,11 +17,16 @@ interface Props {
 const { icon, label, value, href } = Astro.props;
 ---
 
-<div class="flex flex-col items-center text-center">
-  <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm">
-    <Image src={icon} alt="" aria-hidden="true" class="h-11 w-auto object-contain" />
+<div class="flex flex-col items-center text-center max-w-[312px] w-full justify-center">
+  <div class="relative mb-4 flex h-40 items-center justify-center">
+    <span
+      class="absolute top-1/2 left-1/2 size-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-sm"
+      aria-hidden="true"
+    >
+    </span>
+    <Image src={icon} alt="" aria-hidden="true" class="relative z-10 w-auto" />
   </div>
-  <p class="mb-1 text-xs font-medium tracking-widest text-forest-deep/70 uppercase">
+  <p class="mb-1 font-display text-[30px] italic font-normal tracking-widest text-forest-deep">
     {label}
   </p>
   {

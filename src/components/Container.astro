@@ -1,0 +1,18 @@
+---
+// Universal content container: centers content and caps its width to match
+// Figma (1258px for most sections, 556px for the hero). Mobile-first: full
+// width with side gutters, capped only once the viewport is wide enough.
+// Change the widths here to update every section at once.
+interface Props {
+  /** Max content width: 'wide' = 1258px (default), 'narrow' = 556px (hero). */
+  size?: 'wide' | 'narrow';
+  class?: string;
+}
+
+const { size = 'wide', class: className = '', ...rest } = Astro.props;
+const maxWidth = size === 'narrow' ? 'max-w-[556px]' : 'max-w-[1258px]';
+---
+
+<div class:list={['mx-auto w-full px-5 sm:px-8', maxWidth, className]} {...rest}>
+  <slot />
+</div>

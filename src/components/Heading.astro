@@ -1,0 +1,34 @@
+---
+// Display heading — Figma text style:
+// LTC Bodoni 175, 400, 120px, line-height 74%, letter-spacing -3%, centered.
+// The 120px size is fluid (clamp) so it scales down on mobile and reaches 120px
+// on large screens. `as` picks the tag (h1/h2/…), `align` the text alignment
+// (defaults to center per the Figma style), `class` extends (e.g. color).
+interface Props {
+  as?: string;
+  align?: 'center' | 'left' | 'right';
+  class?: string;
+}
+
+const {
+  as: Tag = 'h2',
+  align = 'center',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const alignClass =
+  align === 'left' ? 'text-left' : align === 'right' ? 'text-right' : 'text-center';
+---
+
+<Tag
+  class:list={[
+    'font-display font-normal leading-[0.74] tracking-[-0.03em]',
+    'text-[clamp(2.75rem,10vw,120px)]',
+    alignClass,
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>

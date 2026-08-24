@@ -1,19 +1,21 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
+import Container from './Container.astro';
+import Heading from './Heading.astro';
+import Paragraph from './Paragraph.astro';
 const { pricing, editable } = await getContent();
 ---
 
 <section id={pricing.id} class="bg-sage text-forest-deep" {...editable.pricing}>
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-    <div class="mb-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
-      <h2 class="text-4xl sm:text-5xl">{pricing.heading}</h2>
-      <p class="text-sm leading-relaxed text-forest-deep/80 sm:text-base">
-        {pricing.intro}
-      </p>
+  <Container class="py-20 md:py-28">
+      <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28 ">
+
+      <Heading as="h2" align="left" class="text-white">{pricing.heading}</Heading>
+      <Paragraph class="text-forest-deep/80">{pricing.intro}</Paragraph>
     </div>
 
-    <div class="grid gap-6 sm:grid-cols-2 lg:max-w-3xl lg:mx-auto">
+    <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
       {
         pricing.items.map((item, i) => (
           <article
@@ -30,5 +32,5 @@ const { pricing, editable } = await getContent();
         ))
       }
     </div>
-  </div>
+  </Container>
 </section>

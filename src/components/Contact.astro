@@ -5,16 +5,16 @@ import phoneIcon from '../assets/img/phone.png';
 import emailIcon from '../assets/img/email.png';
 import addressIcon from '../assets/img/adress.png';
 import socialIcon from '../assets/img/social_media.png';
+import Container from './Container.astro';
+import Heading from './Heading.astro';
 const { contact, editable } = await getContent();
 ---
 
 <section id={contact.id} class="bg-sage text-forest-deep" {...editable.contact}>
-  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-    <h2 class="mb-12 text-center text-4xl sm:text-5xl md:text-6xl">
-      {contact.heading}
-    </h2>
+  <Container class="py-20 md:py-28">
+    <Heading as="h2" class="mb-12">{contact.heading}</Heading>
 
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="grid grid-cols-2 md:grid-cols-4">
       <ContactItem
         icon={phoneIcon}
         label={contact.phone.label}
@@ -51,12 +51,8 @@ const { contact, editable } = await getContent();
       </ContactItem>
     </div>
 
-    <div class="mt-14 grid gap-8 md:grid-cols-[1fr_1.3fr] md:items-start">
-      <p class="text-sm leading-relaxed text-forest-deep/80">
-        <span class="font-medium">{contact.directionsTitle}</span>{' '}
-        {contact.directions}
-      </p>
-      <div class="overflow-hidden rounded-xl">
+    <div class="mt-14 flex flex-col gap-7 items-center justify-center">
+      <div class="overflow-hidden rounded-[31px] max-w-[654px] w-full">
         <iframe
           src={contact.mapEmbedUrl}
           title="Mapa dojazdu do gabinetu"
@@ -65,6 +61,10 @@ const { contact, editable } = await getContent();
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
+      <p class="text-sm leading-relaxed text-forest-deep/80 max-w-[605px] w-full">
+        <span class="font-medium">{contact.directionsTitle}</span>{' '}
+        {contact.directions}
+      </p>
     </div>
-  </div>
+  </Container>
 </section>
