@@ -1,59 +1,138 @@
 ---
-// Decorative fern artwork for the hero (NOT editable in the CMS).
-// Layout mirrors the Figma hero: a tall tilted fern on the left, a fiddlehead
-// hanging from the top-center, and a large ornate curl on the right over the
-// "moon". Rotations come straight from Figma (top_left -28.86°, top_right
-// -120.95°). Purely decorative → aria-hidden + pointer-events-none.
+// Decorative fern artwork with parallax on scroll (NOT editable in the CMS).
+// One component, several `variant`s — each is a self-contained overlay that a
+// section drops in. The mechanics are identical everywhere: Rellax drives the
+// wrapper's transform (parallax translate) while the inner image carries any
+// rotation — so the two never fight over `transform`. Purely decorative →
+// aria-hidden + pointer-events-none. Mobile-first: smaller by default, larger
+// from `lg`.
 //
-// Each fern is wrapped: Rellax drives the wrapper's transform (parallax
-// translate) while the inner image carries the rotation — so the two never
-// fight over `transform`. Mobile-first: smaller by default, larger from `lg`.
+// The host <section> must be `relative overflow-x-clip` (clips horizontally to
+// kill page x-scroll, but — unlike `overflow-hidden` — lets a fern bleed
+// *vertically* across the seam into the neighbouring section). Its content, and
+// the content of any section a fern bleeds into, should sit on `relative z-10`
+// so the ferns (z-0 / z-[1] layer) stay behind it.
+//
+// Below-the-fold variants set `data-rellax-percentage="0.5"` so the fern's
+// neutral (natural CSS) position is reached when its section is centred in the
+// viewport — otherwise Rellax's default zero-point (top of the page) offsets
+// them far out of the section's clip. The hero sits at the top, so it keeps the
+// default.
+//
+//   hero    – tall tilted fern (left), fiddlehead (top-center), ornate curl (right)
+//   cta     – single fiddlehead peeking from the right of the CTA banner
+//   cennik  – wide frond arcing in from the left of the pricing section
+//   opinie  – large frond entering from the right of the reviews section
 import { Image } from 'astro:assets';
 import topLeft from '../assets/img/top_left.png';
 import topRight from '../assets/img/top_right.png';
 import topTop from '../assets/img/top_top.png';
+import cennikLeft from '../assets/img/cennik_left.png';
+import cennikRight from '../assets/img/cennik_right.png';
+import opinieRight from '../assets/img/opinie_right.png';
+
+interface Props {
+  variant?: 'hero' | 'cta' | 'cennik' | 'opinie';
+}
+const { variant = 'hero' } = Astro.props;
 ---
 
-<div class="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden="true">
-  <!-- Top-left tall fern -->
-  <div
-    class="rellax absolute -top-6 -left-14 lg:-top-10 lg:-left-16 "
-    data-rellax-speed="-2"
-  >
-    <Image
-      src={topLeft}
-      alt=""
-      loading="eager"
-      class="w-[40vw] rotate-[28.86deg] lg:h-[1145px] lg:w-[580px]"
-    />
-  </div>
+{
+  variant === 'hero' && (
+    <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
+      {/* Top-left tall fern */}
+      <div class="rellax absolute -top-6 -left-14 lg:-top-10 lg:-left-16" data-rellax-speed="-2">
+        <Image
+          src={topLeft}
+          alt=""
+          loading="eager"
+          class="w-[40vw] rotate-[28.86deg] lg:h-[1145px] lg:w-[580px]"
+        />
+      </div>
 
-  <!-- Top-center fiddlehead -->
-  <div
-    class="rellax absolute -top-3 left-[30%] lg:-top-6 lg:left-[36%]"
-    data-rellax-speed="3"
-  >
-    <Image
-      src={topTop}
-      alt=""
-      loading="eager"
-      class="w-[30vw] max-w-[140px] lg:w-[17vw] lg:max-w-[240px]"
-    />
-  </div>
+      {/* Top-center fiddlehead */}
+      <div class="rellax absolute -top-3 left-[30%] lg:-top-6 lg:left-[36%]" data-rellax-speed="3">
+        <Image
+          src={topTop}
+          alt=""
+          loading="eager"
+          class="w-[30vw] max-w-[140px] lg:w-[17vw] lg:max-w-[240px]"
+        />
+      </div>
 
-  <!-- Top-right ornate curl -->
-  <div
-    class="rellax absolute -right-16 top-[4%] lg:-right-6 lg:top-[12%]"
-    data-rellax-speed="-5"
-  >
-    <Image
-      src={topRight}
-      alt=""
-      loading="eager"
-      class="w-[54vw] max-w-[230px] rotate-[-71deg] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
-    />
-  </div>
-</div>
+      {/* Top-right ornate curl */}
+      <div class="rellax absolute -right-16 top-[4%] lg:-right-6 lg:top-[12%]" data-rellax-speed="-5">
+        <Image
+          src={topRight}
+          alt=""
+          loading="eager"
+          class="w-[54vw] max-w-[230px] rotate-[-71deg] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
+        />
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === 'cta' && (
+    <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
+      {/* Fiddlehead peeking from the right */}
+      <div
+        class="rellax absolute -top-4 right-2 lg:top-2 lg:right-10"
+        data-rellax-speed="2"
+        data-rellax-percentage="0.5"
+      >
+        <Image
+          src={cennikRight}
+          alt=""
+          loading="lazy"
+          class="w-[20vw] max-w-[90px] lg:w-[140px]"
+        />
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === 'cennik' && (
+    <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
+      {/* Wide frond arcing in from the left */}
+      <div
+        class="rellax absolute top-10 -left-10 lg:top-24 lg:-left-6"
+        data-rellax-speed="-2"
+        data-rellax-percentage="0.5"
+      >
+        <Image
+          src={cennikLeft}
+          alt=""
+          loading="lazy"
+          class="w-[70vw] max-w-[420px] rotate-[-6deg] lg:w-[620px]"
+        />
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === 'opinie' && (
+    <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
+      {/* Large frond entering from the right */}
+      <div
+        class="rellax absolute -top-6 -right-16 lg:top-0 lg:right-0"
+        data-rellax-speed="-3"
+        data-rellax-percentage="0.5"
+      >
+        <Image
+          src={opinieRight}
+          alt=""
+          loading="lazy"
+          // class="w-[80vw] max-w-[480px] lg:w-[680px]"
+          class="w-[80vw] lg:w-[800px] "
+        />
+      </div>
+    </div>
+  )
+}
 
 <script>
   import Rellax from 'rellax';

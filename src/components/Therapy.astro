@@ -3,11 +3,12 @@ import { getContent } from '../lib/content';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
 import Paragraph from './Paragraph.astro';
+import leafMask from '../assets/svg/leaf_mask.svg?url';
 const { therapy, editable } = await getContent();
 ---
 
 <section id={therapy.id} class="bg-forest text-white" {...editable.therapy}>
-  <Container class="py-20 md:py-28">
+  <Container class="relative z-10 py-20 md:py-28">
      <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28">
       <Heading as="h2" align="left">{therapy.heading}</Heading>
       <Paragraph class="text-white/80">{therapy.intro}</Paragraph>
@@ -17,10 +18,13 @@ const { therapy, editable } = await getContent();
       {
         therapy.items.map((item, i) => (
           <li
-            class="group flex flex-col overflow-hidden rounded-lg bg-forest-deep/40"
+            class="group flex flex-col items-center text-center"
             {...(editable.therapyItems[i] ?? {})}
           >
-            <div class="aspect-[4/3] w-full overflow-hidden bg-sage/25">
+            <div
+              class="mx-auto aspect-[376/408] w-full max-w-[380px] bg-sage/20"
+              style={`-webkit-mask:url(${leafMask}) center/contain no-repeat;mask:url(${leafMask}) center/contain no-repeat;`}
+            >
               {item.image ? (
                 <img
                   src={item.image}
@@ -30,16 +34,16 @@ const { therapy, editable } = await getContent();
                 />
               ) : (
                 <div
-                  class="flex h-full w-full items-center justify-center text-xs text-white/50"
+                  class="flex h-full w-full items-center justify-center text-xs text-forest-deep/60"
                   aria-hidden="true"
                 >
                   zdjęcie
                 </div>
               )}
             </div>
-            <div class="p-5">
+            <div class="mt-4 px-2">
               <h3 class="mb-2 text-xl">{item.name}</h3>
-              <p class="text-sm leading-relaxed text-white/75">
+              <p class="mx-auto max-w-prose text-sm leading-relaxed text-white/75">
                 {item.description}
               </p>
             </div>

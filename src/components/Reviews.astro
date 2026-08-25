@@ -2,6 +2,7 @@
 import { getContent } from '../lib/content';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
+import ParallaxFerns from './ParallaxFerns.astro';
 const { reviews, editable } = await getContent();
 
 /*
@@ -16,8 +17,9 @@ const { reviews, editable } = await getContent();
 const widgetInstalled = false;
 ---
 
-<section id={reviews.id} class="bg-forest text-white" {...editable.reviews}>
-  <Container class="py-20 md:py-28">
+<section id={reviews.id} class="relative overflow-x-clip bg-forest text-white" {...editable.reviews}>
+  <ParallaxFerns variant="opinie" />
+  <Container class="relative z-10 py-20 md:py-28">
     <Heading as="h2" class="mb-10 text-sage">{reviews.heading}</Heading>
 
     {

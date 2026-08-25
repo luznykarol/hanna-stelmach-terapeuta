@@ -7,7 +7,7 @@ const { about, editable } = await getContent();
 ---
 
 <section id={about.id} class="bg-sage text-ink" {...editable.about}>
-  <Container class="grid items-center gap-10 py-20 md:grid-cols-2 md:gap-14 md:py-28">
+  <Container class="relative z-10 grid items-center gap-10 py-20 md:grid-cols-2 md:gap-14 md:py-28">
     <div class="mx-auto md:mx-0">
       <div
         class=" overflow-hidden rounded-full bg-white size-64 lg:size-140.25"

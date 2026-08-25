@@ -4,14 +4,16 @@ import BookingButton from './BookingButton.astro';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
 import Paragraph from './Paragraph.astro';
+import ParallaxFerns from './ParallaxFerns.astro';
 const { pricing, editable } = await getContent();
 ---
 
-<section id={pricing.id} class="bg-sage text-forest-deep" {...editable.pricing}>
-  <Container class="py-20 md:py-28">
+<section id={pricing.id} class="relative overflow-x-clip bg-sage text-forest-deep" {...editable.pricing}>
+  <ParallaxFerns variant="cennik" />
+  <Container class="relative z-10 py-20 md:py-28">
       <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28 ">
 
-      <Heading as="h2" align="left" class="text-white">{pricing.heading}</Heading>
+      <Heading as="h2" align="left" class="text-forest-deep">{pricing.heading}</Heading>
       <Paragraph class="text-forest-deep/80">{pricing.intro}</Paragraph>
     </div>
 

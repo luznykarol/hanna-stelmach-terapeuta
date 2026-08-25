@@ -11,7 +11,7 @@ const { contact, editable } = await getContent();
 ---
 
 <section id={contact.id} class="bg-sage text-forest-deep" {...editable.contact}>
-  <Container class="py-20 md:py-28">
+  <Container class="relative z-10 py-20 md:py-28">
     <Heading as="h2" class="mb-12">{contact.heading}</Heading>
 
     <div class="grid grid-cols-2 md:grid-cols-4">
