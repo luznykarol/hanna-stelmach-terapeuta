@@ -23,7 +23,9 @@ import {
   pricing as pricingDefault,
   reviews as reviewsDefault,
   contact as contactDefault,
-  footer as footerDefault,
+  business as businessDefault,
+  composeAddress,
+  composeMapEmbedUrl,
 } from '../data/content';
 
 type Blok = Record<string, any> & { component: string };
@@ -69,7 +71,7 @@ export type SiteContent = {
   pricing: typeof pricingDefault;
   reviews: typeof reviewsDefault;
   contact: typeof contactDefault;
-  footer: typeof footerDefault;
+  business: typeof businessDefault;
   editable: EditableMap;
 };
 
@@ -99,7 +101,7 @@ function buildDefaults(): SiteContent {
     pricing: pricingDefault,
     reviews: reviewsDefault,
     contact: contactDefault,
-    footer: footerDefault,
+    business: businessDefault,
     editable: emptyEditable(),
   });
 }
@@ -112,7 +114,6 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.site.logoLine2 = str(settings.logo_line2, content.site.logoLine2);
     content.site.bookingUrl = str(settings.booking_url, content.site.bookingUrl);
     content.site.bookingLabel = str(settings.booking_label, content.site.bookingLabel);
-    content.footer.text = str(settings.footer_text, content.footer.text);
     if (Array.isArray(settings.nav) && settings.nav.length > 0) {
       content.site.nav = settings.nav.map((n: Blok, i: number) => ({
         label: str(n.label, content.site.nav[i]?.label ?? ''),
@@ -194,11 +195,23 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.contact.email.value = str(contact.email_value, content.contact.email.value);
     content.contact.email.href = `mailto:${str(contact.email_value, content.contact.email.value)}`;
     content.contact.address.label = str(contact.address_label, content.contact.address.label);
-    content.contact.address.value = str(contact.address_value, content.contact.address.value);
     content.contact.social.label = str(contact.social_label, content.contact.social.label);
     content.contact.directionsTitle = str(contact.directions_title, content.contact.directionsTitle);
     content.contact.directions = str(contact.directions, content.contact.directions);
-    content.contact.mapEmbedUrl = str(contact.map_embed_url, content.contact.mapEmbedUrl);
+
+    // Structured NAP + geo — the CMS is the source of truth, code values are the
+    // fallback. The visible address, the Google Maps embed and the JSON-LD are
+    // all DERIVED from this merged `business`, so they can never diverge.
+    content.business.street = str(contact.street, content.business.street);
+    content.business.floor = str(contact.floor, content.business.floor);
+    content.business.postalCode = str(contact.postal_code, content.business.postalCode);
+    content.business.city = str(contact.city, content.business.city);
+    content.business.region = str(contact.region, content.business.region);
+    content.business.country = str(contact.country, content.business.country);
+    content.business.latitude = str(contact.latitude, String(content.business.latitude ?? ''));
+    content.business.longitude = str(contact.longitude, String(content.business.longitude ?? ''));
+    content.contact.address.value = composeAddress(content.business);
+    content.contact.mapEmbedUrl = composeMapEmbedUrl(content.business);
   }
 }
 

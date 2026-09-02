@@ -14,7 +14,7 @@ const { therapy, editable } = await getContent();
       <Paragraph class="text-white/80">{therapy.intro}</Paragraph>
     </div>
 
-    <ul class="grid gap-6 grid-cols-1 md:grid-cols-2">
+    <ul class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6 lg:mt-0">
       {
         therapy.items.map((item, i) => (
           <li

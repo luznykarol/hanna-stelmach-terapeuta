@@ -2,9 +2,9 @@
 import { getContent } from '../lib/content';
 import Logo from './Logo.astro';
 import Container from './Container.astro';
-const { footer, site, editable } = await getContent();
+const { site, editable } = await getContent();
 
-const year = 2026;
+const year = new Date(Date.now()).getFullYear();
 const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
 ---
 
@@ -15,7 +15,6 @@ const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
       label={logoAlt}
       class="text-forest-deep [&>svg]:h-7 [&>svg]:w-auto"
     />
-    <span class="text-sm text-ink-soft">{footer.text}</span>
     <span class="text-xs text-ink-soft">© {year}</span>
   </Container>
 </footer>

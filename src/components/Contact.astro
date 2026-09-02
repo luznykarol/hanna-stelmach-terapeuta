@@ -14,7 +14,7 @@ const { contact, editable } = await getContent();
   <Container class="relative z-10 py-20 md:py-28">
     <Heading as="h2" class="mb-12">{contact.heading}</Heading>
 
-    <div class="grid grid-cols-2 md:grid-cols-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 items-start">
       <ContactItem
         icon={phoneIcon}
         label={contact.phone.label}

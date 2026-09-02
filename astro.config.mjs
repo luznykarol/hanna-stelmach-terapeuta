@@ -5,6 +5,8 @@ import { storyblok } from '@storyblok/astro';
 import { loadEnv } from 'vite';
 import mkcert from 'vite-plugin-mkcert';
 
+import sitemap from '@astrojs/sitemap';
+
 const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 
 // HTTPS is only needed for local dev, so the Storyblok Visual Editor (which runs
@@ -15,17 +17,18 @@ const isDev = process.argv.includes('dev');
 export default defineConfig({
   // Set to the production URL once the domain is known (used for sitemap / canonical / OG).
   site: 'https://hanna-stelmach-terapeuta.netlify.app',
-  integrations: [
-    storyblok({
-      accessToken: env.STORYBLOK_TOKEN,
-      // Content is mapped manually in src/lib/content.ts (not via <StoryblokComponent>),
-      // so no component map is needed here. The integration still provides the API
-      // client and the visual-editing bridge.
-      apiOptions: { region: 'eu' },
-      // Enable the visual editor bridge only in dev; production is a static build.
-      bridge: process.env.NODE_ENV !== 'production',
-    }),
-  ],
+  integrations: [storyblok({
+    accessToken: env.STORYBLOK_TOKEN,
+    // Content is mapped manually in src/lib/content.ts (not via <StoryblokComponent>),
+    // so no component map is needed here. The integration still provides the API
+    // client and the visual-editing bridge.
+    apiOptions: { region: 'eu' },
+    // Enable the visual editor bridge only in dev; production is a static build.
+    bridge: process.env.NODE_ENV !== 'production',
+  }), sitemap({
+    // /home is the Storyblok Visual Editor route (noindex) — keep it out of the sitemap.
+    filter: (page) => !new URL(page).pathname.startsWith('/home'),
+  })],
   vite: {
     // mkcert generates a locally-trusted cert and serves dev over HTTPS
     // (https://localhost:4321). Only in dev — production is a static build.

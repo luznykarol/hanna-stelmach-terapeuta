@@ -1,0 +1,111 @@
+---
+// JSON-LD structured data for the home page. Feeds both classic SEO (Google
+// rich results / local pack) and answer engines / LLMs, which lean heavily on
+// schema.org to extract facts about a business.
+//
+// Every business fact comes from `business` in src/data/content.ts — the SAME
+// single source that renders the visible contact block and the map — so the
+// structured data can never drift from the page content.
+import { getContent } from '../lib/content';
+
+const { contact, about, therapy, reviews, pricing, business } = await getContent();
+
+const origin = Astro.site?.href.replace(/\/$/, '') ?? '';
+const abs = (path: string) => new URL(path, Astro.site).href;
+
+// Price range derived from the visible pricing table (falls back gracefully).
+const prices = pricing.items
+  .map((i) => Number(String(i.price).replace(/[^\d]/g, '')))
+  .filter((n) => Number.isFinite(n) && n > 0);
+const priceRange = prices.length
+  ? Math.min(...prices) !== Math.max(...prices)
+    ? `${Math.min(...prices)}–${Math.max(...prices)} zł`
+    : `${prices[0]} zł`
+  : undefined;
+
+// Profiles that reference this business → schema `sameAs` (deduped, non-empty).
+const sameAs = [
+  ...new Set(
+    [
+      reviews.znanylekarzProfileUrl,
+      ...business.sameAs,
+      ...(contact.social?.links?.map((l) => l.href) ?? []),
+    ].filter(Boolean),
+  ),
+];
+
+const hasGeo = Boolean(business.latitude && business.longitude);
+
+const businessId = `${origin}/#business`;
+const personId = `${origin}/#practitioner`;
+
+const graph = [
+  {
+    '@type': ['MedicalBusiness', 'LocalBusiness'],
+    '@id': businessId,
+    name: business.name,
+    url: `${origin}/`,
+    image: abs(about.image || '/og-image.jpg'),
+    telephone: contact.phone?.value,
+    email: contact.email?.value,
+    priceRange,
+    currenciesAccepted: 'PLN',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: business.floor ? `${business.street}, ${business.floor}` : business.street,
+      postalCode: business.postalCode,
+      addressLocality: business.city,
+      addressRegion: business.region,
+      addressCountry: business.country,
+    },
+    ...(hasGeo
+      ? {
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: business.latitude,
+            longitude: business.longitude,
+          },
+        }
+      : {}),
+    areaServed: { '@type': 'City', name: business.areaServed },
+    knowsAbout: business.knowsAbout,
+    openingHoursSpecification: business.openingHours.map((h) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: h.days,
+      opens: h.opens,
+      closes: h.closes,
+    })),
+    founder: { '@id': personId },
+    employee: { '@id': personId },
+    sameAs,
+    makesOffer: therapy.items
+      // Skip empty placeholder rows so the graph only lists real services.
+      .filter((it) => it.name && it.name.toLowerCase() !== 'terapia nazwa')
+      .map((it) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: it.name, description: it.description },
+      })),
+  },
+  {
+    '@type': 'Person',
+    '@id': personId,
+    name: business.practitionerName,
+    jobTitle: business.practitionerJobTitle,
+    worksFor: { '@id': businessId },
+    ...(about.image ? { image: abs(about.image) } : {}),
+    knowsAbout: business.knowsAbout,
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${origin}/#website`,
+    url: `${origin}/`,
+    name: business.name,
+    inLanguage: 'pl-PL',
+    publisher: { '@id': businessId },
+  },
+];
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

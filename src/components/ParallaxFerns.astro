@@ -45,6 +45,7 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={topLeft}
           alt=""
+          width={640}
           loading="eager"
           class="w-[40vw] rotate-[28.86deg] lg:h-[1145px] lg:w-[580px]"
         />
@@ -55,6 +56,8 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={topTop}
           alt=""
+          width={240}
+          densities={[1, 2]}
           loading="eager"
           class="w-[30vw] max-w-[140px] lg:w-[17vw] lg:max-w-[240px]"
         />
@@ -65,6 +68,7 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={topRight}
           alt=""
+          width={620}
           loading="eager"
           class="w-[54vw] max-w-[230px] rotate-[-71deg] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
         />
@@ -85,6 +89,8 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={cennikRight}
           alt=""
+          width={160}
+          densities={[1, 2]}
           loading="lazy"
           class="w-[20vw] max-w-[90px] lg:w-[140px]"
         />
@@ -105,6 +111,7 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={cennikLeft}
           alt=""
+          width={640}
           loading="lazy"
           class="w-[70vw] max-w-[420px] rotate-[-6deg] lg:w-[620px]"
         />
@@ -125,8 +132,8 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={opinieRight}
           alt=""
+          width={820}
           loading="lazy"
-          // class="w-[80vw] max-w-[480px] lg:w-[680px]"
           class="w-[80vw] lg:w-[800px] "
         />
       </div>

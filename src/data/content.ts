@@ -77,21 +77,72 @@ export const reviews = {
     'https://www.znanylekarz.pl/hanna-stelmach/psycholog-psychoterapeuta/warszawa',
 };
 
+/**
+ * Placeholder DEFAULTS for the practice's NAP (Name / Address / Phone) and SEO
+ * facts. Storyblok is the source of truth — `getContent()` overrides these with
+ * the CMS values (see src/lib/content.ts). The visible contact block, the Google
+ * Maps embed, and the JSON-LD structured data are all DERIVED from the merged
+ * result via `composeAddress` / `composeMapEmbedUrl`, so content and SEO can
+ * never diverge no matter where a value comes from.
+ */
+export const business = {
+  name: 'Hanna Stelmach — Psychoterapia',
+  practitionerName: 'Hanna Stelmach',
+  practitionerJobTitle: 'Psycholog, psychoterapeuta',
+  street: 'ul. Chmielna 34/66',
+  floor: 'Piętro 7',
+  postalCode: '00-020',
+  city: 'Warszawa',
+  region: 'mazowieckie',
+  country: 'PL',
+  // TODO: real coordinates — a strong local-SEO signal. Leave '' to omit `geo`.
+  latitude: '',
+  longitude: '',
+  areaServed: 'Warszawa',
+  // TODO: confirm real opening hours.
+  openingHours: [
+    {
+      days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  // Topics the practitioner works with — helps LLMs / answer engines match queries.
+  knowsAbout: [
+    'psychoterapia',
+    'psychoterapia dorosłych',
+    'psychoterapia młodzieży',
+    'wsparcie psychologiczne',
+  ],
+  // Profiles that reference this business (ZnanyLekarz, socials) → schema `sameAs`.
+  sameAs: [] as string[],
+};
+
+type Business = typeof business;
+
+/** Human-readable address, composed from the structured parts. */
+export function composeAddress(b: Business): string {
+  return (
+    `${b.street}, ${b.postalCode} ${b.city}` + (b.floor ? `, ${b.floor}` : '')
+  );
+}
+
+/** Keyless Google Maps embed URL derived from the same address (no API key). */
+export function composeMapEmbedUrl(b: Business): string {
+  const query = `${b.street.replace(/^ul\.\s*/, '')}, ${b.postalCode} ${b.city}`;
+  return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+}
+
 export const contact = {
   id: 'kontakt',
   heading: 'kontakt',
   phone: { label: 'telefon', value: '+48 478 344 783', href: 'tel:+48478344783' },
   email: { label: 'mail', value: 'mail@mail.com', href: 'mailto:mail@mail.com' },
-  address: { label: 'adres', value: 'ul. Ulica 4/4, 14-444 Warszawa' },
+  address: { label: 'adres', value: composeAddress(business) },
   social: { label: 'social media', links: [] as { label: string; href: string }[] },
   directionsTitle: 'Jak dotrzeć:',
   directions:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
-  // Google Maps embed URL (place query) — replace with the real address embed.
-  mapEmbedUrl:
-    'https://www.google.com/maps?q=Warszawa&output=embed',
-};
-
-export const footer = {
-  text: 'stopka',
+  // Derived from `business` (recomputed from the CMS values in lib/content.ts).
+  mapEmbedUrl: composeMapEmbedUrl(business),
 };

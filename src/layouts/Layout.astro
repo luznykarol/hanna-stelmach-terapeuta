@@ -8,6 +8,8 @@ interface Props {
   canonicalPath?: string;
   /** Exclude from search indexing (used by the /home Visual Editor route). */
   noindex?: boolean;
+  /** Social-share image (Open Graph / Twitter). Absolute path under /public. */
+  image?: string;
 }
 
 const {
@@ -15,9 +17,12 @@ const {
   description = 'Profesjonalne wsparcie psychoterapeutyczne dla dorosłych i młodzieży w bezpiecznej atmosferze. Gabinet w Warszawie.',
   canonicalPath,
   noindex = false,
+  image = '/og-image.jpg',
 } = Astro.props;
 
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+const siteName = 'Hanna Stelmach — Psychoterapia';
 ---
 
 <!doctype html>
@@ -27,18 +32,37 @@ const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#3E553C" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {
+      noindex ? (
+        <meta name="robots" content="noindex, nofollow" />
+      ) : (
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+      )
+    }
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="pl_PL" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={siteName} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Self-hosted fonts (see public/fonts + @font-face in global.css).
          Preload the above-the-fold faces to avoid a flash of fallback text. -->
@@ -56,8 +80,17 @@ const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
       type="font/woff2"
       crossorigin
     />
+
+    <!-- Per-page <head> extras (e.g. JSON-LD structured data). -->
+    <slot name="head" />
   </head>
   <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-forest-deep focus:shadow-lg"
+    >
+      Przejdź do treści
+    </a>
     <slot />
   </body>
 </html>
