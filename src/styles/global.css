@@ -94,3 +94,40 @@ h3,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Richtext formatting */
+.richtext p {
+  margin-bottom: 1rem;
+  widows: 2;
+  orphans: 2;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  text-wrap: pretty;
+}
+
+.richtext strong {
+  font-weight: 600;
+}
+
+.richtext em {
+  font-style: italic;
+}
+
+.richtext a {
+  color: var(--color-forest-deep);
+  text-decoration: underline;
+}
+
+.richtext a:hover {
+  opacity: 0.8;
+}
+
+/* Sticky image in About section on large screens */
+@media (min-width: 1024px) {
+  .about-image {
+    position: sticky;
+    top: 6rem;
+  }
+}

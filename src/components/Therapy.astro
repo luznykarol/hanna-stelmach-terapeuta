@@ -18,18 +18,18 @@ const { therapy, editable } = await getContent();
       {
         therapy.items.map((item, i) => (
           <li
-            class="group flex flex-col items-center text-center"
+            class="group flex flex-col items-center text-center gap-6"
             {...(editable.therapyItems[i] ?? {})}
           >
-            <div
-              class="mx-auto aspect-[376/408] w-full max-w-[380px] bg-sage/20"
-              style={`-webkit-mask:url(${leafMask}) center/contain no-repeat;mask:url(${leafMask}) center/contain no-repeat;`}
-            >
+            <div class="relative">
+              <div class="absolute left-1/2 size-[175px] -translate-x-1/2 -bottom-[24px] rounded-full bg-white shadow-sm -z-1"></div>
+              
+            
               {item.image ? (
                 <img
                   src={item.image}
                   alt={item.imageAlt}
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  class=" object-cover"
                   loading="lazy"
                 />
               ) : (
@@ -37,15 +37,15 @@ const { therapy, editable } = await getContent();
                   class="flex h-full w-full items-center justify-center text-xs text-forest-deep/60"
                   aria-hidden="true"
                 >
-                  zdjęcie
                 </div>
               )}
-            </div>
+              </div>
             <div class="mt-4 px-2">
-              <h3 class="mb-2 text-xl">{item.name}</h3>
-              <p class="mx-auto max-w-prose text-sm leading-relaxed text-white/75">
+              <h3 class="mb-2 text-[36px]">{item.name}</h3>
+              <Paragraph class="text-white/75 max-w-prose">{item.description}</Paragraph>
+              {/* <p class="mx-auto max-w-prose text-sm leading-relaxed text-white/75">
                 {item.description}
-              </p>
+              </p> */}
             </div>
           </li>
         ))

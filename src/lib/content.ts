@@ -14,6 +14,7 @@
  * The result is memoised so Storyblok is queried once per build.
  */
 import { useStoryblokApi, storyblokEditable } from '@storyblok/astro';
+import { renderRichText } from '@storyblok/richtext';
 import {
   site as siteDefault,
   hero as heroDefault,
@@ -133,7 +134,7 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
   if (about) {
     content.editable.about = editableAttrs(about);
     content.about.heading = str(about.heading, content.about.heading);
-    content.about.text = str(about.text, content.about.text);
+    content.about.text = about.text ? renderRichText(about.text) : content.about.text;
     content.about.image = asset(about.image, content.about.image);
   }
 
@@ -196,6 +197,12 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.contact.email.href = `mailto:${str(contact.email_value, content.contact.email.value)}`;
     content.contact.address.label = str(contact.address_label, content.contact.address.label);
     content.contact.social.label = str(contact.social_label, content.contact.social.label);
+    if (Array.isArray(contact.social_links) && contact.social_links.length > 0) {
+      content.contact.social.links = contact.social_links.map((link: Blok) => ({
+        platform: str(link.platform, 'instagram') as 'instagram' | 'znanylekarz',
+        href: str(link.href, ''),
+      }));
+    }
     content.contact.directionsTitle = str(contact.directions_title, content.contact.directionsTitle);
     content.contact.directions = str(contact.directions, content.contact.directions);
 
@@ -210,7 +217,10 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.business.country = str(contact.country, content.business.country);
     content.business.latitude = str(contact.latitude, String(content.business.latitude ?? ''));
     content.business.longitude = str(contact.longitude, String(content.business.longitude ?? ''));
-    content.contact.address.value = composeAddress(content.business);
+    // Use richtext address if available, otherwise compose from business fields
+    content.contact.address.value = contact.address_value
+      ? renderRichText(contact.address_value)
+      : composeAddress(content.business);
     content.contact.mapEmbedUrl = composeMapEmbedUrl(content.business);
   }
 }

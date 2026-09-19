@@ -24,7 +24,7 @@ const { pricing, editable } = await getContent();
             class="flex flex-col items-center gap-5 rounded-xl bg-white px-8 py-10 text-center"
             {...(editable.pricingItems[i] ?? {})}
           >
-            <h3 class="text-lg text-ink-soft">{item.name}</h3>
+            <h3 class="text-[36px] text-ink-soft">{item.name}</h3>
             <p class="font-display text-4xl text-forest-deep">
               {item.price}
               <span class="ml-1 text-sage">{item.duration}</span>

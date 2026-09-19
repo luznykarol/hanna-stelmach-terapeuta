@@ -7,6 +7,8 @@ import addressIcon from '../assets/img/adress.png';
 import socialIcon from '../assets/img/social_media.png';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
+import InstagramIcon from '../assets/svg/instagram.svg';
+import ZnanylekarzIcon from '../assets/svg/znanylekarz.svg';
 const { contact, editable } = await getContent();
 ---
 
@@ -35,11 +37,12 @@ const { contact, editable } = await getContent();
       <ContactItem icon={socialIcon} label={contact.social.label}>
         {
           contact.social.links.length > 0 ? (
-            <ul class="flex justify-center gap-3">
+            <ul class="flex justify-center items-center gap-4">
               {contact.social.links.map((link) => (
                 <li>
-                  <a href={link.href} class="text-sm text-forest-deep hover:underline">
-                    {link.label}
+                  <a href={link.href} title={link.platform} class="flex items-center justify-center">
+                    {link.platform === 'instagram' && <InstagramIcon/>}
+                    {link.platform === 'znanylekarz' && <ZnanylekarzIcon/>}
                   </a>
                 </li>
               ))}

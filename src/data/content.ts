@@ -139,7 +139,10 @@ export const contact = {
   phone: { label: 'telefon', value: '+48 478 344 783', href: 'tel:+48478344783' },
   email: { label: 'mail', value: 'mail@mail.com', href: 'mailto:mail@mail.com' },
   address: { label: 'adres', value: composeAddress(business) },
-  social: { label: 'social media', links: [] as { label: string; href: string }[] },
+  social: {
+    label: 'social media',
+    links: [] as { platform: 'instagram' | 'znanylekarz'; href: string }[],
+  },
   directionsTitle: 'Jak dotrzeć:',
   directions:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',

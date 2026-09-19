@@ -41,36 +41,36 @@ const { variant = 'hero' } = Astro.props;
   variant === 'hero' && (
     <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
       {/* Top-left tall fern */}
-      <div class="rellax absolute -top-6 -left-14 lg:-top-10 lg:-left-16" data-rellax-speed="-2">
+      <div class="rellax absolute top-24 -left-44 lg:-top-10 lg:-left-16" data-rellax-speed="-2">
         <Image
           src={topLeft}
           alt=""
           width={640}
           loading="eager"
-          class="w-[40vw] rotate-[28.86deg] lg:h-[1145px] lg:w-[580px]"
+          class="w-[80vw] rotate-[28.86deg] max-w-[340px] lg:h-[1145px] lg:w-[580px] lg:max-w-full"
         />
       </div>
 
       {/* Top-center fiddlehead */}
-      <div class="rellax absolute -top-3 left-[30%] lg:-top-6 lg:left-[36%]" data-rellax-speed="3">
+      <div class="rellax absolute -top-3 left-[40%] lg:-top-6 lg:left-[36%]" data-rellax-speed="3">
         <Image
           src={topTop}
           alt=""
           width={240}
           densities={[1, 2]}
           loading="eager"
-          class="w-[30vw] max-w-[140px] lg:w-[17vw] lg:max-w-[240px]"
+          class="w-[40vw] lg:w-[17vw] max-w-[300px] lg:max-w-[240px]"
         />
       </div>
 
       {/* Top-right ornate curl */}
-      <div class="rellax absolute -right-16 top-[4%] lg:-right-6 lg:top-[12%]" data-rellax-speed="-5">
+      <div class="rellax absolute -right-36 top-[14%] lg:-right-6 lg:top-[12%]" data-rellax-speed="-5">
         <Image
           src={topRight}
           alt=""
           width={620}
           loading="eager"
-          class="w-[54vw] max-w-[230px] rotate-[-71deg] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
+          class="w-[64vw] rotate-[-71deg] max-w-[370px] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
         />
       </div>
     </div>
@@ -80,11 +80,8 @@ const { variant = 'hero' } = Astro.props;
 {
   variant === 'cta' && (
     <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
-      {/* Fiddlehead peeking from the right */}
       <div
-        class="rellax absolute -top-4 right-2 lg:top-2 lg:right-10"
-        data-rellax-speed="2"
-        data-rellax-percentage="0.5"
+        class=" absolute bottom-0 right-2 lg:right-10"
       >
         <Image
           src={cennikRight}
@@ -92,7 +89,7 @@ const { variant = 'hero' } = Astro.props;
           width={160}
           densities={[1, 2]}
           loading="lazy"
-          class="w-[20vw] max-w-[90px] lg:w-[140px]"
+          class="w-[20vw] max-w-[90px] lg:w-[10vw] max-w-full"
         />
       </div>
     </div>
@@ -104,9 +101,9 @@ const { variant = 'hero' } = Astro.props;
     <div class="pointer-events-none absolute inset-0 z-[1] overflow-x-clip" aria-hidden="true">
       {/* Wide frond arcing in from the left */}
       <div
-        class="rellax absolute top-10 -left-10 lg:top-24 lg:-left-6"
-        data-rellax-speed="-2"
-        data-rellax-percentage="0.5"
+        class=" absolute -top-[50px] -left-10 lg:-top-16 lg:-left-6"
+        // data-rellax-speed="-2"
+        // data-rellax-percentage="0.5"
       >
         <Image
           src={cennikLeft}
