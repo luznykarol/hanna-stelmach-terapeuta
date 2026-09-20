@@ -65,10 +65,21 @@ Region: **EU**. Token (Preview) trzymany w `.env` jako `STORYBLOK_TOKEN`.
 **Jednorazowa konfiguracja przestrzeni** (space ID `294737692191178`):
 
 ```bash
-# 1. Wgraj schematy komponentów (wymaga logowania do Storyblok)
 npx storyblok@3 login --region eu
-npx storyblok@3 push-components ./storyblok/components.json --space 294737692191178
+node storyblok/push-components.mjs           # podgląd zmian w schemacie
+node storyblok/push-components.mjs --apply   # wysyłka
 ```
+
+Schemat wgrywa własny skrypt, nie `storyblok push-components`: CLI woła
+`GET /spaces/{id}/internal_tags`, a ten endpoint odrzuca token z `login`
+(*„This endpoint does not support this token type"*), więc całe zadanie kończy
+się `Forbidden`, zanim dotknie któregokolwiek komponentu.
+
+Skrypt komponent aktualizuje jako `{…istniejący, …z pliku}`, więc ustawienia
+spoza repo (grupa, ikona, presety, tagi) przeżywają push. **Schemat jest
+podmieniany, nie scalany** — pole dodane w panelu, a nieobecne w pliku, znika.
+Dry run wypisuje takie pola z adnotacją `ZNIKNIE Z PANELU`, zanim cokolwiek
+poleci; jeśli się pojawią, najpierw dopisz je do `components.json`.
 
 ### SEO
 
