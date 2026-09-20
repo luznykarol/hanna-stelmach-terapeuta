@@ -4,4 +4,4 @@ Allow: /
 # The /home route is the Storyblok Visual Editor preview (duplicate of /).
 Disallow: /home
 
-Sitemap: https://hanna-stelmach-terapeuta.netlify.app/sitemap-index.xml
+Sitemap: https://hannastelmach.pl/sitemap-index.xml

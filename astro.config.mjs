@@ -15,8 +15,10 @@ const isDev = process.argv.includes('dev');
 
 // https://astro.build/config
 export default defineConfig({
-  // Set to the production URL once the domain is known (used for sitemap / canonical / OG).
-  site: 'https://hanna-stelmach-terapeuta.netlify.app',
+  // Production URL. Everything derived from it — canonical links, og:url, the
+  // @id/url pairs in the JSON-LD graph and the sitemap — follows this one value,
+  // so it must match the primary domain set in Netlify exactly (no www, https).
+  site: 'https://hannastelmach.pl',
   integrations: [storyblok({
     accessToken: env.STORYBLOK_TOKEN,
     // Content is mapped manually in src/lib/content.ts (not via <StoryblokComponent>),

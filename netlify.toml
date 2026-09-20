@@ -22,3 +22,14 @@
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# The *.netlify.app URL cannot be removed — Netlify keeps it working for every
+# site. Left alone it is a second address serving identical content, which can
+# surface in search results or get shared by accident. This 301s it (and every
+# path under it) to the real domain. `force` makes the rule win over the static
+# file that would otherwise be served.
+[[redirects]]
+  from = "https://hanna-stelmach-terapeuta.netlify.app/*"
+  to = "https://hannastelmach.pl/:splat"
+  status = 301
+  force = true
