@@ -1,0 +1,24 @@
+---
+// The two-column opener shared by „terapia" and „cennik": display heading on
+// the left, CMS intro paragraph on the right, collapsing to one column on
+// mobile. Only the colours differ between the two, so they are props.
+import Heading from './Heading.astro';
+import RichText from './RichText.astro';
+
+interface Props {
+  heading: string;
+  /** Intro copy as rendered richtext HTML. */
+  html: string;
+  /** Colour class for the heading, e.g. "text-forest-deep". */
+  headingClass?: string;
+  /** Colour class for the intro text. */
+  textClass?: string;
+}
+
+const { heading, html, headingClass = '', textClass = '' } = Astro.props;
+---
+
+<div class="mx-auto grid w-full items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28">
+  <Heading as="h2" align="left" class={headingClass}>{heading}</Heading>
+  <RichText html={html} class={textClass} />
+</div>

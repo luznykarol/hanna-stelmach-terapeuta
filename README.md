@@ -70,6 +70,18 @@ npx storyblok@3 login --region eu
 npx storyblok@3 push-components ./storyblok/components.json --space 294737692191178
 ```
 
+### SEO
+
+Tytuł, opis i obrazek udostępniania są edytowalne w CMS: **Ustawienia globalne →
+„SEO — …"**. Puste pole = wartość z `seo` w `src/data/content.ts`. Obrazek
+udostępniania jest opcjonalny i *celowo* nie ma domyślnego pliku — gdy go brak,
+znaczniki `og:image` w ogóle się nie renderują, bo link do nieistniejącego pliku
+daje popsuty podgląd (tak było wcześniej z `/og-image.jpg`).
+
+Dane firmy (NAP, godziny, `knowsAbout`) i JSON-LD zostają po stronie kodu
+(`business` w `src/data/content.ts`) — to fakty, nie treść marketingowa, a
+schema.org musi być spójna z sekcją kontaktu, która czyta te same wartości.
+
 **Zmiana typu pola na richtext.** Storyblok waliduje *całe* story przy zapisie,
 więc dopóki którekolwiek pole typu richtext trzyma string po starym typie
 (`text`/`textarea`), żaden zapis nie przechodzi — panel pokazuje *„must be a

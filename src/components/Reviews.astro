@@ -1,22 +1,16 @@
 ---
 import { getContent } from '../lib/content';
-import Container from './Container.astro';
+import Section from './Section.astro';
 import Heading from './Heading.astro';
-import ParallaxFerns from './ParallaxFerns.astro';
+import { storyblokImage, storyblokSrcSet, storyblokSize } from '../lib/images';
 const { reviews, editable } = await getContent();
 
 const slides = reviews.items;
 
-const sbImage = (url: string, width: number): string =>
-  url.includes('a.storyblok.com') && !url.endsWith('.svg')
-    ? `${url}/m/${width}x0/filters:quality(80)`
-    : url;
 ---
 
-<section id={reviews.id} class="relative overflow-x-clip bg-forest text-white" {...editable.reviews}>
-  <ParallaxFerns variant="opinie" />
-  <Container class="relative z-10 py-20 md:py-28">
-    <Heading as="h2" class="mb-10 text-sage">{reviews.heading}</Heading>
+<Section id={reviews.id} class="bg-forest text-white" fern="opinie" {...editable.reviews}>
+  <Heading as="h2" class="mb-10 text-sage">{reviews.heading}</Heading>
 
     {
       slides.length > 0 ? (
@@ -38,11 +32,13 @@ const sbImage = (url: string, width: number): string =>
                   {...(editable.reviewItems[i] ?? {})}
                 >
                   <img
-                    src={sbImage(slide.image, 640)}
-                    srcset={`${sbImage(slide.image, 640)} 640w, ${sbImage(slide.image, 1024)} 1024w`}
+                    src={storyblokImage(slide.image, 640)}
+                    srcset={storyblokSrcSet(slide.image, [400, 640, 1024])}
                     sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 90vw"
                     alt={slide.alt}
-                    class="w-full rounded-2xl bg-white/5 shadow-lg"
+                    width={storyblokSize(slide.image)?.width}
+                    height={storyblokSize(slide.image)?.height}
+                    class="h-auto w-full rounded-2xl bg-white/5 shadow-lg"
                     loading={i === 0 ? 'eager' : 'lazy'}
                     decoding="async"
                   />
@@ -91,39 +87,31 @@ const sbImage = (url: string, width: number): string =>
             </div>
           )}
 
-          {reviews.znanylekarzProfileUrl && (
-            <p class="mt-10 text-center">
-              <a
-                href={reviews.znanylekarzProfileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-sm underline underline-offset-4 hover:opacity-70"
-              >
-                {reviews.znanylekarzLinkLabel} →
-              </a>
-            </p>
-          )}
         </div>
       ) : (
-        <div class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/25 px-6 py-14 text-center">
+        <div class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/50 px-6 py-14 text-center">
           <p class="max-w-md text-sm text-white/70">
             Brak opinii — dodaj slajdy w Storyblok (sekcja „Opinie” → „Slajdy”).
           </p>
-          {reviews.znanylekarzProfileUrl && (
-            <a
-              href={reviews.znanylekarzProfileUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm underline underline-offset-4 hover:opacity-70"
-            >
-              {reviews.znanylekarzLinkLabel} →
-            </a>
-          )}
         </div>
       )
     }
-  </Container>
-</section>
+
+    {
+      reviews.znanylekarzProfileUrl && (
+        <p class="mt-10 text-center">
+          <a
+            href={reviews.znanylekarzProfileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm underline underline-offset-4 hover:opacity-70"
+          >
+            {reviews.znanylekarzLinkLabel} →
+          </a>
+        </p>
+      )
+    }
+</Section>
 
 <script>
   import EmblaCarousel from 'embla-carousel';

@@ -5,16 +5,19 @@ import phoneIcon from '../assets/img/phone.png';
 import emailIcon from '../assets/img/email.png';
 import addressIcon from '../assets/img/adress.png';
 import socialIcon from '../assets/img/social_media.png';
-import Container from './Container.astro';
+import Section from './Section.astro';
 import Heading from './Heading.astro';
 import InstagramIcon from '../assets/svg/instagram.svg';
 import ZnanylekarzIcon from '../assets/svg/znanylekarz.svg';
-const { contact, editable } = await getContent();
+const { contact, business, editable } = await getContent();
+
+// Same address the embed points at — used for the "open in a new tab" fallback,
+// which stays available when JavaScript is off.
+const mapQuery = `${business.street}, ${business.postalCode} ${business.city}`;
 ---
 
-<section id={contact.id} class="bg-sage text-forest-deep" {...editable.contact}>
-  <Container class="relative z-10 py-20 md:py-28">
-    <Heading as="h2" class="mb-12">{contact.heading}</Heading>
+<Section id={contact.id} class="bg-sage text-forest-deep" {...editable.contact}>
+  <Heading as="h2" class="mb-12">{contact.heading}</Heading>
 
     <div class="grid grid-cols-2 md:grid-cols-4 items-start">
       <ContactItem
@@ -48,21 +51,45 @@ const { contact, editable } = await getContent();
               ))}
             </ul>
           ) : (
-            <p class="text-sm text-forest-deep/50">—</p>
+            <p class="text-sm text-forest-deep">—</p>
           )
         }
       </ContactItem>
     </div>
 
     <div class="mt-14 flex flex-col gap-7 items-center justify-center">
-      <div class="overflow-hidden rounded-[31px] max-w-[654px] w-full">
-        <iframe
-          src={contact.mapEmbedUrl}
-          title="Mapa dojazdu do gabinetu"
-          class="aspect-[16/9] w-full border-0"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
+      {/*
+        Map facade: the Google Maps embed pulls roughly a megabyte of
+        third-party JavaScript and sets cookies on every visit, which costs us
+        both Lighthouse performance and a consent obligation. The iframe is
+        injected on click instead, so the page ships none of it until someone
+        actually wants the map.
+      */}
+      <div
+        class="relative aspect-[16/9] w-full max-w-[654px] overflow-hidden rounded-[31px] bg-forest/10"
+        data-map
+        data-map-src={contact.mapEmbedUrl}
+      >
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+          <button
+            type="button"
+            data-map-load
+            class="rounded-full bg-forest px-7 py-3 text-white transition-colors hover:bg-forest-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
+          >
+            Pokaż mapę dojazdu
+          </button>
+          <p class="text-xs text-forest-deep">
+            Ładuje Mapy Google — usługa zewnętrzna, która zapisuje pliki cookie.
+          </p>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs underline underline-offset-4 hover:opacity-70"
+          >
+            albo otwórz w nowej karcie
+          </a>
+        </div>
       </div>
       <div class="max-w-[605px] w-full text-sm leading-relaxed text-forest-deep/80">
         <p class="font-medium">{contact.directionsTitle}</p>
@@ -70,5 +97,20 @@ const { contact, editable } = await getContent();
         <div class="richtext" set:html={contact.directions} />
       </div>
     </div>
-  </Container>
-</section>
+</Section>
+
+<script>
+  // Swap the placeholder for the real embed on click — one listener, no deps.
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((node) => {
+    node.querySelector('[data-map-load]')?.addEventListener('click', () => {
+      const src = node.dataset.mapSrc;
+      if (!src) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = 'Mapa dojazdu do gabinetu';
+      iframe.className = 'absolute inset-0 h-full w-full border-0';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      node.replaceChildren(iframe);
+    });
+  });
+</script>

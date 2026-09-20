@@ -3,6 +3,7 @@ import { getContent } from '../lib/content';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
 import RichText from './RichText.astro';
+import { storyblokImage, storyblokSrcSet } from '../lib/images';
 
 const preventWidowWords = (html: string): string => {
   const smallWords = ['i', 'a', 'o', 'z', 'w', 'u', 'na', 'do', 'ze', 'od', 'że', "I", "II"];
@@ -27,10 +28,15 @@ const processedAboutText = preventWidowWords(about.text);
         {
           about.image ? (
             <img
-              src={about.image}
+              src={storyblokImage(about.image, 561, 561)}
+              srcset={storyblokSrcSet(about.image, [256, 512, 561, 1122], 256)}
+              sizes="(min-width: 1024px) 561px, 256px"
               alt={about.imageAlt}
+              width="561"
+              height="561"
               class="size-full object-cover"
               loading="lazy"
+              decoding="async"
             />
           ) : (
             <div

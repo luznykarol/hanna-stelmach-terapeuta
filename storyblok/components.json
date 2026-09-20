@@ -28,18 +28,63 @@
       "display_name": "Ustawienia globalne",
       "is_nestable": true,
       "schema": {
-        "logo_line1": { "type": "text", "pos": 0, "display_name": "Logo — linia 1" },
-        "logo_line2": { "type": "text", "pos": 1, "display_name": "Logo — linia 2" },
-        "booking_url": { "type": "text", "pos": 2, "display_name": "Link „umów wizytę”" },
-        "booking_label": { "type": "text", "pos": 3, "display_name": "Tekst przycisku" },
+        "logo_line1": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Logo — linia 1"
+        },
+        "logo_line2": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Logo — linia 2"
+        },
+        "booking_url": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Link „umów wizytę”"
+        },
+        "booking_label": {
+          "type": "text",
+          "pos": 3,
+          "display_name": "Tekst przycisku"
+        },
         "nav": {
           "type": "bloks",
           "pos": 4,
           "display_name": "Menu",
           "restrict_components": true,
-          "component_whitelist": ["nav_item"]
+          "component_whitelist": [
+            "nav_item"
+          ]
         },
-        "footer_text": { "type": "text", "pos": 5, "display_name": "Tekst stopki" }
+        "footer_text": {
+          "type": "text",
+          "pos": 5,
+          "display_name": "Tekst stopki"
+        },
+        "seo_title": {
+          "type": "text",
+          "pos": 6,
+          "display_name": "SEO — tytuł strony",
+          "description": "Tytuł w karcie przeglądarki i w wynikach Google. Optymalnie 50–60 znaków.",
+          "max_length": 70
+        },
+        "seo_description": {
+          "type": "textarea",
+          "pos": 7,
+          "display_name": "SEO — opis",
+          "description": "Opis pod tytułem w wynikach Google. Optymalnie 120–155 znaków.",
+          "max_length": 200
+        },
+        "seo_og_image": {
+          "type": "asset",
+          "pos": 8,
+          "display_name": "SEO — obrazek udostępniania",
+          "description": "Widoczny przy linku wklejonym na Facebooku, LinkedIn czy w komunikatorze. Zalecane 1200×630 px.",
+          "filetypes": [
+            "images"
+          ]
+        }
       }
     },
     {
@@ -47,8 +92,16 @@
       "display_name": "Pozycja menu",
       "is_nestable": true,
       "schema": {
-        "label": { "type": "text", "pos": 0, "display_name": "Etykieta" },
-        "href": { "type": "text", "pos": 1, "display_name": "Kotwica (np. #o-mnie)" }
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Etykieta"
+        },
+        "href": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Kotwica (np. #o-mnie)"
+        }
       }
     },
     {
@@ -56,8 +109,16 @@
       "display_name": "Hero (nagłówek strony)",
       "is_nestable": true,
       "schema": {
-        "title": { "type": "text", "pos": 0, "display_name": "Tytuł" },
-        "subtitle": { "type": "richtext", "pos": 1, "display_name": "Podtytuł" }
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Tytuł"
+        },
+        "subtitle": {
+          "type": "richtext",
+          "pos": 1,
+          "display_name": "Podtytuł"
+        }
       }
     },
     {
@@ -65,9 +126,24 @@
       "display_name": "O mnie",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
-        "text": { "type": "richtext", "pos": 1, "display_name": "Treść" },
-        "image": { "type": "asset", "pos": 2, "display_name": "Zdjęcie", "filetypes": ["images"] }
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        },
+        "text": {
+          "type": "richtext",
+          "pos": 1,
+          "display_name": "Treść"
+        },
+        "image": {
+          "type": "asset",
+          "pos": 2,
+          "display_name": "Zdjęcie",
+          "filetypes": [
+            "images"
+          ]
+        }
       }
     },
     {
@@ -75,14 +151,24 @@
       "display_name": "Terapia",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
-        "intro": { "type": "richtext", "pos": 1, "display_name": "Wstęp" },
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        },
+        "intro": {
+          "type": "richtext",
+          "pos": 1,
+          "display_name": "Wstęp"
+        },
         "items": {
           "type": "bloks",
           "pos": 2,
           "display_name": "Kafelki terapii",
           "restrict_components": true,
-          "component_whitelist": ["therapy_item"]
+          "component_whitelist": [
+            "therapy_item"
+          ]
         }
       }
     },
@@ -91,9 +177,24 @@
       "display_name": "Kafelek terapii",
       "is_nestable": true,
       "schema": {
-        "image": { "type": "asset", "pos": 0, "display_name": "Zdjęcie", "filetypes": ["images"] },
-        "name": { "type": "text", "pos": 1, "display_name": "Nazwa" },
-        "description": { "type": "richtext", "pos": 2, "display_name": "Opis" }
+        "image": {
+          "type": "asset",
+          "pos": 0,
+          "display_name": "Zdjęcie",
+          "filetypes": [
+            "images"
+          ]
+        },
+        "name": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Nazwa"
+        },
+        "description": {
+          "type": "richtext",
+          "pos": 2,
+          "display_name": "Opis"
+        }
       }
     },
     {
@@ -101,7 +202,11 @@
       "display_name": "Baner CTA",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" }
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        }
       }
     },
     {
@@ -109,14 +214,24 @@
       "display_name": "Cennik",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
-        "intro": { "type": "richtext", "pos": 1, "display_name": "Wstęp" },
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        },
+        "intro": {
+          "type": "richtext",
+          "pos": 1,
+          "display_name": "Wstęp"
+        },
         "items": {
           "type": "bloks",
           "pos": 2,
           "display_name": "Pozycje cennika",
           "restrict_components": true,
-          "component_whitelist": ["pricing_item"]
+          "component_whitelist": [
+            "pricing_item"
+          ]
         }
       }
     },
@@ -125,9 +240,21 @@
       "display_name": "Pozycja cennika",
       "is_nestable": true,
       "schema": {
-        "name": { "type": "text", "pos": 0, "display_name": "Nazwa" },
-        "price": { "type": "text", "pos": 1, "display_name": "Cena (np. 250 zł)" },
-        "duration": { "type": "text", "pos": 2, "display_name": "Czas (np. 1h)" }
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nazwa"
+        },
+        "price": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Cena (np. 250 zł)"
+        },
+        "duration": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Czas (np. 1h)"
+        }
       }
     },
     {
@@ -135,14 +262,20 @@
       "display_name": "Opinie (karuzela)",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        },
         "items": {
           "type": "bloks",
           "pos": 1,
           "display_name": "Slajdy",
           "description": "Każdy slajd to jedno zdjęcie opinii. Kolejność ustalasz przeciąganiem.",
           "restrict_components": true,
-          "component_whitelist": ["review_item"]
+          "component_whitelist": [
+            "review_item"
+          ]
         },
         "znanylekarz_profile_url": {
           "type": "text",
@@ -167,7 +300,9 @@
           "pos": 0,
           "display_name": "Zdjęcie opinii",
           "description": "Opis alternatywny (alt) ustaw bezpośrednio na zdjęciu — jest używany przez czytniki ekranu.",
-          "filetypes": ["images"],
+          "filetypes": [
+            "images"
+          ],
           "required": true
         }
       }
@@ -177,17 +312,96 @@
       "display_name": "Kontakt",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "display_name": "Nagłówek" },
-        "phone_label": { "type": "text", "pos": 1 },
-        "phone_value": { "type": "text", "pos": 2, "display_name": "Telefon" },
-        "email_label": { "type": "text", "pos": 3 },
-        "email_value": { "type": "text", "pos": 4, "display_name": "E-mail" },
-        "address_label": { "type": "text", "pos": 5 },
-        "address_value": { "type": "richtext", "pos": 6, "display_name": "Adres" },
-        "social_label": { "type": "text", "pos": 7 },
-        "directions_title": { "type": "text", "pos": 8, "display_name": "Tytuł „Jak dotrzeć”" },
-        "directions": { "type": "richtext", "pos": 9, "display_name": "Opis dojazdu" },
-        "map_embed_url": { "type": "text", "pos": 10, "display_name": "Link do mapy (embed)" }
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "display_name": "Nagłówek"
+        },
+        "phone_label": {
+          "type": "text",
+          "pos": 1
+        },
+        "phone_value": {
+          "type": "text",
+          "pos": 2,
+          "display_name": "Telefon"
+        },
+        "email_label": {
+          "type": "text",
+          "pos": 3
+        },
+        "email_value": {
+          "type": "text",
+          "pos": 4,
+          "display_name": "E-mail"
+        },
+        "address_label": {
+          "type": "text",
+          "pos": 5
+        },
+        "address_value": {
+          "type": "richtext",
+          "pos": 6,
+          "display_name": "Adres"
+        },
+        "social_label": {
+          "type": "text",
+          "pos": 7
+        },
+        "directions_title": {
+          "type": "text",
+          "pos": 8,
+          "display_name": "Tytuł „Jak dotrzeć”"
+        },
+        "directions": {
+          "type": "richtext",
+          "pos": 9,
+          "display_name": "Opis dojazdu"
+        },
+        "map_embed_url": {
+          "type": "text",
+          "pos": 10,
+          "display_name": "Link do mapy (embed)"
+        },
+        "social_links": {
+          "type": "bloks",
+          "pos": 11,
+          "display_name": "Linki do social mediów",
+          "restrict_components": true,
+          "component_whitelist": [
+            "social_link"
+          ]
+        }
+      }
+    },
+    {
+      "name": "social_link",
+      "display_name": "Link social media",
+      "is_nestable": true,
+      "schema": {
+        "platform": {
+          "type": "option",
+          "pos": 0,
+          "display_name": "Serwis",
+          "use_uuid": true,
+          "options": [
+            {
+              "_uid": "e49a9aaa-15dd-4afa-be55-cc6a3052ffa4",
+              "name": "instagram",
+              "value": "instagram"
+            },
+            {
+              "_uid": "eb9487e9-798f-4619-98c1-fc4caf099abd",
+              "name": "znanylekarz",
+              "value": "znanylekarz"
+            }
+          ]
+        },
+        "href": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Adres linku"
+        }
       }
     }
   ]

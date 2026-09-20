@@ -15,6 +15,8 @@ const logoAlt = `${site.logoLine1} ${site.logoLine2}`;
       label={logoAlt}
       class="text-forest-deep [&>svg]:h-7 [&>svg]:w-auto"
     />
-    <span class="text-xs text-ink-soft">© {year}</span>
+    <span class="text-xs text-ink-soft">
+      © {year}{site.footerText && ` · ${site.footerText}`}
+    </span>
   </Container>
 </footer>

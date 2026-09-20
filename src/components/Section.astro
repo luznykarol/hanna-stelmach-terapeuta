@@ -1,0 +1,45 @@
+---
+// Standard page section: a full-bleed colour band wrapping the centred
+// container. Every section repeated the same three lines (band → optional fern
+// overlay → `Container` with the same vertical rhythm), so the padding and the
+// stacking context live here instead of being copy-pasted.
+//
+// A section hosting a fern must be `relative overflow-x-clip` and put its own
+// content on `relative z-10`, or the artwork covers the text / leaks horizontal
+// scroll (see ParallaxFerns). Passing `fern` applies both, so a caller cannot
+// forget half of the contract.
+import Container from './Container.astro';
+import ParallaxFerns from './ParallaxFerns.astro';
+
+interface Props {
+  id?: string;
+  /** Colour classes for the band, e.g. "bg-forest text-white". */
+  class?: string;
+  /** Decorative fern overlay; omit for a section without one. */
+  fern?: 'hero' | 'cta' | 'cennik' | 'opinie';
+  /** Extra classes for the inner container. */
+  containerClass?: string;
+}
+
+const {
+  id,
+  class: className = '',
+  fern,
+  containerClass = '',
+  ...rest
+} = Astro.props;
+
+const sectionClass = [fern ? 'relative overflow-x-clip' : '', className]
+  .filter(Boolean)
+  .join(' ');
+const innerClass = ['relative z-10 py-20 md:py-28', containerClass]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<section id={id} class={sectionClass} {...rest}>
+  {fern && <ParallaxFerns variant={fern} />}
+  <Container class={innerClass}>
+    <slot />
+  </Container>
+</section>

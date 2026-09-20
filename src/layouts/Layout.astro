@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+import { getContent } from '../lib/content';
+
+const { seo, business } = await getContent();
 
 interface Props {
   title?: string;
@@ -8,21 +11,26 @@ interface Props {
   canonicalPath?: string;
   /** Exclude from search indexing (used by the /home Visual Editor route). */
   noindex?: boolean;
-  /** Social-share image (Open Graph / Twitter). Absolute path under /public. */
+  /**
+   * Social-share image (Open Graph / Twitter): a CMS asset URL, or a path under
+   * /public. Empty means the share tags are omitted — a tag pointing at a file
+   * that does not exist renders as a broken preview, which is worse than none.
+   */
   image?: string;
 }
 
 const {
-  title = 'Hanna Stelmach — psycholog, psychoterapeuta | Warszawa',
-  description = 'Profesjonalne wsparcie psychoterapeutyczne dla dorosłych i młodzieży w bezpiecznej atmosferze. Gabinet w Warszawie.',
+  title = seo.title,
+  description = seo.description,
   canonicalPath,
   noindex = false,
-  image = '/og-image.jpg',
+  image = seo.ogImage,
 } = Astro.props;
 
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).href;
-const ogImage = new URL(image, Astro.site).href;
-const siteName = 'Hanna Stelmach — Psychoterapia';
+// CMS assets are already absolute; a /public path is resolved against the site.
+const ogImage = image ? new URL(image, Astro.site).href : '';
+const siteName = business.name;
 ---
 
 <!doctype html>
@@ -55,14 +63,25 @@ const siteName = 'Hanna Stelmach — Psychoterapia';
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="pl_PL" />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content={siteName} />
+    {
+      ogImage && (
+        <>
+          <meta property="og:image" content={ogImage} />
+          <meta property="og:image:alt" content={siteName} />
+        </>
+      )
+    }
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- CMS images are served from Storyblok's CDN. The browser would only
+         discover that host when it hits the first <img>, costing a DNS + TLS
+         round trip on the critical path. -->
+    <link rel="preconnect" href="https://a.storyblok.com" crossorigin />
 
     <!-- Self-hosted fonts (see public/fonts + @font-face in global.css).
          Preload the above-the-fold faces to avoid a flash of fallback text. -->

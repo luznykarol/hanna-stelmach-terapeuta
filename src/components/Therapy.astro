@@ -1,18 +1,14 @@
 ---
 import { getContent } from '../lib/content';
-import Container from './Container.astro';
-import Heading from './Heading.astro';
+import Section from './Section.astro';
+import SectionIntro from './SectionIntro.astro';
 import RichText from './RichText.astro';
-import leafMask from '../assets/svg/leaf_mask.svg?url';
+import { storyblokImage, storyblokSrcSet, storyblokSize } from '../lib/images';
 const { therapy, editable } = await getContent();
 ---
 
-<section id={therapy.id} class="bg-forest text-white" {...editable.therapy}>
-  <Container class="relative z-10 py-20 md:py-28">
-     <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28">
-      <Heading as="h2" align="left">{therapy.heading}</Heading>
-      <RichText html={therapy.intro} class="text-white/80" />
-    </div>
+<Section id={therapy.id} class="bg-forest text-white" {...editable.therapy}>
+  <SectionIntro heading={therapy.heading} html={therapy.intro} textClass="text-white/80" />
 
     <ul class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6 lg:mt-0">
       {
@@ -27,10 +23,18 @@ const { therapy, editable } = await getContent();
             
               {item.image ? (
                 <img
-                  src={item.image}
+                  src={storyblokImage(item.image, storyblokSize(item.image)?.width ?? 350)}
+                  srcset={
+                    storyblokSize(item.image)
+                      ? `${storyblokImage(item.image, storyblokSize(item.image)!.width)} 1x, ${storyblokImage(item.image, storyblokSize(item.image)!.width * 2)} 2x`
+                      : undefined
+                  }
                   alt={item.imageAlt}
+                  width={storyblokSize(item.image)?.width}
+                  height={storyblokSize(item.image)?.height}
                   class=" object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               ) : (
                 <div
@@ -48,5 +52,4 @@ const { therapy, editable } = await getContent();
         ))
       }
     </ul>
-  </Container>
-</section>
+</Section>

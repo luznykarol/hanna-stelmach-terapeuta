@@ -17,6 +17,7 @@ import { useStoryblokApi, storyblokEditable } from '@storyblok/astro';
 import { renderRichText } from '@storyblok/richtext';
 import {
   site as siteDefault,
+  seo as seoDefault,
   hero as heroDefault,
   about as aboutDefault,
   therapy as therapyDefault,
@@ -89,6 +90,7 @@ const editableAttrs = (blok: Blok | undefined): Attrs => {
 
 export type SiteContent = {
   site: typeof siteDefault;
+  seo: typeof seoDefault;
   hero: typeof heroDefault;
   about: typeof aboutDefault;
   therapy: typeof therapyDefault;
@@ -120,6 +122,7 @@ function buildDefaults(): SiteContent {
   // Structured clone keeps the memoised object independent from the source module.
   return structuredClone({
     site: siteDefault,
+    seo: seoDefault,
     hero: heroDefault,
     about: aboutDefault,
     therapy: therapyDefault,
@@ -140,6 +143,10 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.site.logoLine2 = str(settings.logo_line2, content.site.logoLine2);
     content.site.bookingUrl = str(settings.booking_url, content.site.bookingUrl);
     content.site.bookingLabel = str(settings.booking_label, content.site.bookingLabel);
+    content.site.footerText = str(settings.footer_text, content.site.footerText);
+    content.seo.title = str(settings.seo_title, content.seo.title);
+    content.seo.description = str(settings.seo_description, content.seo.description);
+    content.seo.ogImage = asset(settings.seo_og_image, content.seo.ogImage);
     if (Array.isArray(settings.nav) && settings.nav.length > 0) {
       content.site.nav = settings.nav.map((n: Blok, i: number) => ({
         label: str(n.label, content.site.nav[i]?.label ?? ''),

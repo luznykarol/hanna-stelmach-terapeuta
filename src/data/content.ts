@@ -16,12 +16,27 @@ export const site = {
   // Later this becomes a Calendly link (or stays as ZnanyLekarz) — editable in the CMS.
   bookingUrl: 'https://www.znanylekarz.pl/hanna-stelmach/psycholog-psychoterapeuta/warszawa',
   bookingLabel: 'umów wizytę',
+  // Optional line next to the copyright in the footer (CMS: „Tekst stopki”).
+  footerText: '',
   nav: [
     { label: 'o mnie', href: '#o-mnie' },
     { label: 'terapia', href: '#terapia' },
     { label: 'cennik', href: '#cennik' },
     { label: 'kontakt', href: '#kontakt' },
   ],
+};
+
+/**
+ * SEO defaults. Editable in the CMS (site_settings → „SEO — …”); these values
+ * are the fallback when a field is left empty. `ogImage` is intentionally empty
+ * — the share-image tags are omitted entirely rather than pointing at a file
+ * that does not exist, which renders as a broken preview.
+ */
+export const seo = {
+  title: 'Hanna Stelmach — psycholog, psychoterapeuta | Warszawa',
+  description:
+    'Profesjonalne wsparcie psychoterapeutyczne dla dorosłych i młodzieży w bezpiecznej atmosferze. Gabinet w Warszawie.',
+  ogImage: '',
 };
 
 export const hero = {

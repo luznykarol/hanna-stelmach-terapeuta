@@ -8,7 +8,24 @@
 // structured data can never drift from the page content.
 import { getContent } from '../lib/content';
 
-const { contact, about, therapy, reviews, pricing, business } = await getContent();
+const { contact, about, therapy, reviews, pricing, business, seo } = await getContent();
+
+/**
+ * Service descriptions come from a richtext field, i.e. already-rendered HTML.
+ * JSON-LD is plain text — tags in a description are shown verbatim in rich
+ * results, so strip them and collapse the whitespace.
+ */
+const plain = (html: string): string =>
+  html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+// Prefer the portrait, fall back to the share image; omit `image` if neither
+// exists rather than pointing the graph at a missing file.
+const businessImage = about.image || seo.ogImage;
 
 const origin = Astro.site?.href.replace(/\/$/, '') ?? '';
 const abs = (path: string) => new URL(path, Astro.site).href;
@@ -45,7 +62,7 @@ const graph = [
     '@id': businessId,
     name: business.name,
     url: `${origin}/`,
-    image: abs(about.image || '/og-image.jpg'),
+    ...(businessImage ? { image: abs(businessImage) } : {}),
     telephone: contact.phone?.value,
     email: contact.email?.value,
     priceRange,
@@ -83,7 +100,7 @@ const graph = [
       .filter((it) => it.name && it.name.toLowerCase() !== 'terapia nazwa')
       .map((it) => ({
         '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: it.name, description: it.description },
+        itemOffered: { '@type': 'Service', name: it.name, description: plain(it.description) },
       })),
   },
   {

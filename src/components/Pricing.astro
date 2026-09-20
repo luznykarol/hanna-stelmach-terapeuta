@@ -1,21 +1,18 @@
 ---
 import { getContent } from '../lib/content';
 import BookingButton from './BookingButton.astro';
-import Container from './Container.astro';
-import Heading from './Heading.astro';
-import RichText from './RichText.astro';
-import ParallaxFerns from './ParallaxFerns.astro';
+import Section from './Section.astro';
+import SectionIntro from './SectionIntro.astro';
 const { pricing, editable } = await getContent();
 ---
 
-<section id={pricing.id} class="relative overflow-x-clip bg-sage text-forest-deep" {...editable.pricing}>
-  <ParallaxFerns variant="cennik" />
-  <Container class="relative z-10 py-20 md:py-28">
-      <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28 ">
-
-      <Heading as="h2" align="left" class="text-forest-deep">{pricing.heading}</Heading>
-      <RichText html={pricing.intro} class="text-forest-deep/80" />
-    </div>
+<Section id={pricing.id} class="bg-sage text-forest-deep" fern="cennik" {...editable.pricing}>
+  <SectionIntro
+    heading={pricing.heading}
+    html={pricing.intro}
+    headingClass="text-forest-deep"
+    textClass="text-forest-deep/80"
+  />
 
     <div class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6 lg:mt-0">
       {
@@ -34,5 +31,4 @@ const { pricing, editable } = await getContent();
         ))
       }
     </div>
-  </Container>
-</section>
+</Section>
