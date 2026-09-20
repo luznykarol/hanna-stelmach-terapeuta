@@ -70,6 +70,24 @@ npx storyblok@3 login --region eu
 npx storyblok@3 push-components ./storyblok/components.json --space 294737692191178
 ```
 
+**Zmiana typu pola na richtext.** Storyblok waliduje *całe* story przy zapisie,
+więc dopóki którekolwiek pole typu richtext trzyma string po starym typie
+(`text`/`textarea`), żaden zapis nie przechodzi — panel pokazuje *„must be a
+prosemirror document"*, a API zwraca 422. Konwersja:
+
+```bash
+node migrations/migrate-richtext.mjs           # podgląd, nic nie zapisuje
+node migrations/migrate-richtext.mjs --apply   # zapis do wersji roboczej
+```
+
+Skrypt czyta z żywego schematu, które pola są richtextem, konwertuje wszystkie
+naraz (jeden zapis — pojedyncze pole zawsze zostałoby odrzucone) i jest
+idempotentny. Wymaga `npx storyblok@3 login --region eu`. Na końcu **Publish**.
+
+Uwaga na `storyblok run-migration`: robi zapis per pole, więc przy tej zmianie
+każdy przebieg kończy się 422 — i mimo to wypisuje „✓ The migration was
+executed with success", bo połyka błąd. Stąd własny skrypt.
+
 Następnie w panelu Storyblok: otwórz story **Home** → usuń demowe bloki
 (teaser/grid) → w polu `body` dodaj bloki: `site_settings`, `hero`, `about`,
 `therapy`, `cta_banner`, `pricing`, `reviews`, `contact` → uzupełnij treści →

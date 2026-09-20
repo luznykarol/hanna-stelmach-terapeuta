@@ -15,6 +15,8 @@
     "@storyblok/astro": "^10.3.0",
     "@storyblok/richtext": "^5.3.1",
     "astro": "^5.12.0",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
     "rellax": "^1.12.1"
   },
   "devDependencies": {

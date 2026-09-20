@@ -4,7 +4,7 @@ import BookingButton from './BookingButton.astro';
 import ParallaxFerns from './ParallaxFerns.astro';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
-import Paragraph from './Paragraph.astro';
+import RichText from './RichText.astro';
 const { hero, editable } = await getContent();
 ---
 
@@ -13,7 +13,6 @@ const { hero, editable } = await getContent();
   class="relative overflow-x-clip bg-forest text-white"
   {...editable.hero}
 >
-  <!-- Ambient background: soft radial glow + a "moon" circle echoing the Figma layout. -->
 
   <div
     class="pointer-events-none absolute inset-0 opacity-60"
@@ -27,16 +26,13 @@ const { hero, editable } = await getContent();
   >
   </div>
 
-  <!-- Decorative fern artwork with parallax on scroll -->
   <ParallaxFerns />
 
   <div
     class="relative z-10 flex flex-col gap-10.5 mx-auto min-h-[90vh] justify-center items-center max-w-[560px] px-5 pt-40 pb-24 sm:px-8"
   >
     <Heading as="h1" class="text-white">{hero.title}</Heading>
-    <Paragraph class="max-w-md text-center text-white">
-      {hero.subtitle}
-    </Paragraph>
+    <RichText html={hero.subtitle} class="max-w-md text-center text-white" />
     <div class="flex items-center justify-center">
       <BookingButton variant="light" />
     </div>

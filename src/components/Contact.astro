@@ -64,10 +64,11 @@ const { contact, editable } = await getContent();
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <p class="text-sm leading-relaxed text-forest-deep/80 max-w-[605px] w-full">
-        <span class="font-medium">{contact.directionsTitle}</span>{' '}
-        {contact.directions}
-      </p>
+      <div class="max-w-[605px] w-full text-sm leading-relaxed text-forest-deep/80">
+        <p class="font-medium">{contact.directionsTitle}</p>
+        {/* Richtext carries its own <p>/<ul>, so it sits next to the title, not inside it. */}
+        <div class="richtext" set:html={contact.directions} />
+      </div>
     </div>
   </Container>
 </section>

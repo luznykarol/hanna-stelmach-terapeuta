@@ -107,6 +107,30 @@ h3,
   text-wrap: pretty;
 }
 
+/* No trailing gap — the wrapper controls the spacing below the block. */
+.richtext p:last-child {
+  margin-bottom: 0;
+}
+
+.richtext ul,
+.richtext ol {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+  list-style-position: outside;
+}
+
+.richtext ul {
+  list-style-type: disc;
+}
+
+.richtext ol {
+  list-style-type: decimal;
+}
+
+.richtext li {
+  margin-bottom: 0.25rem;
+}
+
 .richtext strong {
   font-weight: 600;
 }

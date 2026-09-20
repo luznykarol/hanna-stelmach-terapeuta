@@ -71,10 +71,14 @@ export const pricing = {
 export const reviews = {
   id: 'opinie',
   heading: 'opinie',
-  // The reviews section is powered by the official ZnanyLekarz widget (embedded).
-  // Paste the widget markup / configure the profile in ZnanyLekarz → "Kanały umawiania".
+  // Each slide is a single image (a screenshot of the review — the text and the
+  // author are part of the picture), so the asset is the only editable field;
+  // `alt` is read off the asset. Slides are added in the CMS: reviews → „Slajdy”.
+  items: [] as { image: string; alt: string }[],
+  // Optional link under the carousel — the full profile with all reviews.
   znanylekarzProfileUrl:
     'https://www.znanylekarz.pl/hanna-stelmach/psycholog-psychoterapeuta/warszawa',
+  znanylekarzLinkLabel: 'Zobacz wszystkie opinie na ZnanyLekarz',
 };
 
 /**

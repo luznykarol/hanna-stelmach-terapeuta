@@ -2,7 +2,7 @@
 import { getContent } from '../lib/content';
 import Container from './Container.astro';
 import Heading from './Heading.astro';
-import Paragraph from './Paragraph.astro';
+import RichText from './RichText.astro';
 import leafMask from '../assets/svg/leaf_mask.svg?url';
 const { therapy, editable } = await getContent();
 ---
@@ -11,7 +11,7 @@ const { therapy, editable } = await getContent();
   <Container class="relative z-10 py-20 md:py-28">
      <div class="mx-auto w-full  grid items-center gap-10 md:grid-cols-2 md:gap-14 md:pb-28">
       <Heading as="h2" align="left">{therapy.heading}</Heading>
-      <Paragraph class="text-white/80">{therapy.intro}</Paragraph>
+      <RichText html={therapy.intro} class="text-white/80" />
     </div>
 
     <ul class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6 lg:mt-0">
@@ -42,10 +42,7 @@ const { therapy, editable } = await getContent();
               </div>
             <div class="mt-4 px-2">
               <h3 class="mb-2 text-[36px]">{item.name}</h3>
-              <Paragraph class="text-white/75 max-w-prose">{item.description}</Paragraph>
-              {/* <p class="mx-auto max-w-prose text-sm leading-relaxed text-white/75">
-                {item.description}
-              </p> */}
+              <RichText html={item.description} class="text-white/75 max-w-prose" />
             </div>
           </li>
         ))

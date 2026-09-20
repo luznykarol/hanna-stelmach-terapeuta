@@ -42,12 +42,36 @@ type EditableMap = {
   pricing: Attrs;
   pricingItems: Attrs[];
   reviews: Attrs;
+  reviewItems: Attrs[];
   contact: Attrs;
 };
 
 /** Return the Storyblok string if non-empty, otherwise the fallback. */
 const str = (value: unknown, fallback: string): string =>
   typeof value === 'string' && value.trim() !== '' ? value : fallback;
+
+/**
+ * Render a Storyblok richtext field to an HTML string, or return the fallback.
+ *
+ * The editor always sends a document — an untouched field is a single empty
+ * paragraph, which would render as `<p></p>` and silently wipe the placeholder,
+ * so those count as empty too. The result is HTML: components print it with
+ * `set:html` and the `richtext` class (see global.css), inside a block-level
+ * element — never inside a <p>, since the HTML contains <p>/<ul> of its own.
+ */
+const rich = (value: unknown, fallback: string): string => {
+  // A field that was a text/textarea before the switch to richtext keeps its
+  // plain string until the editor re-saves it — pass it through as-is.
+  if (typeof value === 'string') return value.trim() !== '' ? value : fallback;
+
+  const doc = value as { content?: { type?: string; content?: unknown[] }[] } | undefined;
+  const isEmpty =
+    !doc ||
+    typeof doc !== 'object' ||
+    !Array.isArray(doc.content) ||
+    doc.content.every((node) => node?.type === 'paragraph' && !node?.content?.length);
+  return isEmpty ? fallback : renderRichText(value as any);
+};
 
 /** Extract an asset filename from a Storyblok asset field, else fallback. */
 const asset = (value: any, fallback: string): string =>
@@ -87,6 +111,7 @@ function emptyEditable(): EditableMap {
     pricing: {},
     pricingItems: [],
     reviews: {},
+    reviewItems: [],
     contact: {},
   };
 }
@@ -127,14 +152,14 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
   if (hero) {
     content.editable.hero = editableAttrs(hero);
     content.hero.title = str(hero.title, content.hero.title);
-    content.hero.subtitle = str(hero.subtitle, content.hero.subtitle);
+    content.hero.subtitle = rich(hero.subtitle, content.hero.subtitle);
   }
 
   const about = findBlok(body, 'about');
   if (about) {
     content.editable.about = editableAttrs(about);
     content.about.heading = str(about.heading, content.about.heading);
-    content.about.text = about.text ? renderRichText(about.text) : content.about.text;
+    content.about.text = rich(about.text, content.about.text);
     content.about.image = asset(about.image, content.about.image);
   }
 
@@ -142,13 +167,13 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
   if (therapy) {
     content.editable.therapy = editableAttrs(therapy);
     content.therapy.heading = str(therapy.heading, content.therapy.heading);
-    content.therapy.intro = str(therapy.intro, content.therapy.intro);
+    content.therapy.intro = rich(therapy.intro, content.therapy.intro);
     if (Array.isArray(therapy.items) && therapy.items.length > 0) {
       content.therapy.items = therapy.items.map((it: Blok) => ({
         image: asset(it.image, ''),
         imageAlt: str(it.name, ''),
         name: str(it.name, 'terapia nazwa'),
-        description: str(it.description, ''),
+        description: rich(it.description, ''),
       }));
       content.editable.therapyItems = therapy.items.map((it: Blok) => editableAttrs(it));
     }
@@ -164,7 +189,7 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
   if (pricing) {
     content.editable.pricing = editableAttrs(pricing);
     content.pricing.heading = str(pricing.heading, content.pricing.heading);
-    content.pricing.intro = str(pricing.intro, content.pricing.intro);
+    content.pricing.intro = rich(pricing.intro, content.pricing.intro);
     if (Array.isArray(pricing.items) && pricing.items.length > 0) {
       content.pricing.items = pricing.items.map((it: Blok) => ({
         name: str(it.name, 'rodzaj terapii'),
@@ -179,9 +204,23 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
   if (reviews) {
     content.editable.reviews = editableAttrs(reviews);
     content.reviews.heading = str(reviews.heading, content.reviews.heading);
+    if (Array.isArray(reviews.items) && reviews.items.length > 0) {
+      // A slide without an image would render an empty box — drop it.
+      const slides = reviews.items.filter((it: Blok) => asset(it.image, '') !== '');
+      content.reviews.items = slides.map((it: Blok) => ({
+        image: asset(it.image, ''),
+        // Alt text lives on the asset itself (Storyblok's „Alt text” field).
+        alt: str(it.image?.alt, ''),
+      }));
+      content.editable.reviewItems = slides.map((it: Blok) => editableAttrs(it));
+    }
     content.reviews.znanylekarzProfileUrl = str(
       reviews.znanylekarz_profile_url,
       content.reviews.znanylekarzProfileUrl,
+    );
+    content.reviews.znanylekarzLinkLabel = str(
+      reviews.znanylekarz_link_label,
+      content.reviews.znanylekarzLinkLabel,
     );
   }
 
@@ -204,7 +243,7 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
       }));
     }
     content.contact.directionsTitle = str(contact.directions_title, content.contact.directionsTitle);
-    content.contact.directions = str(contact.directions, content.contact.directions);
+    content.contact.directions = rich(contact.directions, content.contact.directions);
 
     // Structured NAP + geo — the CMS is the source of truth, code values are the
     // fallback. The visible address, the Google Maps embed and the JSON-LD are
@@ -217,10 +256,9 @@ function applyStoryblok(content: SiteContent, body: Blok[]): void {
     content.business.country = str(contact.country, content.business.country);
     content.business.latitude = str(contact.latitude, String(content.business.latitude ?? ''));
     content.business.longitude = str(contact.longitude, String(content.business.longitude ?? ''));
-    // Use richtext address if available, otherwise compose from business fields
-    content.contact.address.value = contact.address_value
-      ? renderRichText(contact.address_value)
-      : composeAddress(content.business);
+    // Use the richtext address if the editor filled one in, otherwise compose it
+    // from the structured business fields above.
+    content.contact.address.value = rich(contact.address_value, composeAddress(content.business));
     content.contact.mapEmbedUrl = composeMapEmbedUrl(content.business);
   }
 }

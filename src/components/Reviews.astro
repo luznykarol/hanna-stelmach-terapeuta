@@ -5,16 +5,12 @@ import Heading from './Heading.astro';
 import ParallaxFerns from './ParallaxFerns.astro';
 const { reviews, editable } = await getContent();
 
-/*
-  Reviews are rendered by the official ZnanyLekarz widget.
-  To activate:
-    1. Log in to ZnanyLekarz → "Kanały umawiania" → "Utwórz widget".
-    2. Choose the opinions ("Opinie") widget and copy the generated snippet.
-    3. Paste the <script>/<div> markup into the placeholder below (Astro renders
-       raw HTML fine; the widget's own <script> will execute on the client).
-  Until then we show a placeholder with a link to the profile.
-*/
-const widgetInstalled = false;
+const slides = reviews.items;
+
+const sbImage = (url: string, width: number): string =>
+  url.includes('a.storyblok.com') && !url.endsWith('.svg')
+    ? `${url}/m/${width}x0/filters:quality(80)`
+    : url;
 ---
 
 <section id={reviews.id} class="relative overflow-x-clip bg-forest text-white" {...editable.reviews}>
@@ -23,31 +19,163 @@ const widgetInstalled = false;
     <Heading as="h2" class="mb-10 text-sage">{reviews.heading}</Heading>
 
     {
-      widgetInstalled ? (
-        <div id="zl-widget-container">
-          {/* Paste ZnanyLekarz widget markup here. */}
+      slides.length > 0 ? (
+        <div
+          class="embla"
+          data-carousel
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={reviews.heading}
+        >
+          <div class="overflow-hidden" data-carousel-viewport>
+            <div class="-ml-4 flex touch-pan-y md:-ml-6">
+              {slides.map((slide, i) => (
+                <div
+                  class="min-w-0 shrink-0 grow-0 basis-full pl-4 sm:basis-1/2 md:pl-6 lg:basis-1/3"
+                  role="group"
+                  aria-roledescription="slajd"
+                  aria-label={`${i + 1} z ${slides.length}`}
+                  {...(editable.reviewItems[i] ?? {})}
+                >
+                  <img
+                    src={sbImage(slide.image, 640)}
+                    srcset={`${sbImage(slide.image, 640)} 640w, ${sbImage(slide.image, 1024)} 1024w`}
+                    sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 90vw"
+                    alt={slide.alt}
+                    class="w-full rounded-2xl bg-white/5 shadow-lg"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {slides.length > 1 && (
+            <div class="mt-8 flex items-center justify-center gap-6">
+              <button
+                type="button"
+                data-carousel-prev
+                aria-label="Poprzednia opinia"
+                class="flex size-11 shrink-0 items-center justify-center rounded-full border border-cream-text/30 transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage disabled:opacity-30"
+              >
+                <svg viewBox="0 0 24 24" fill="none" class="size-5" aria-hidden="true">
+                  <path
+                    d="M15 5 8 12l7 7"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+
+              <div class="flex items-center gap-2.5" data-carousel-dots />
+
+              <button
+                type="button"
+                data-carousel-next
+                aria-label="Następna opinia"
+                class="flex size-11 shrink-0 items-center justify-center rounded-full border border-cream-text/30 transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage disabled:opacity-30"
+              >
+                <svg viewBox="0 0 24 24" fill="none" class="size-5" aria-hidden="true">
+                  <path
+                    d="m9 5 7 7-7 7"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
+
+          {reviews.znanylekarzProfileUrl && (
+            <p class="mt-10 text-center">
+              <a
+                href={reviews.znanylekarzProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm underline underline-offset-4 hover:opacity-70"
+              >
+                {reviews.znanylekarzLinkLabel} →
+              </a>
+            </p>
+          )}
         </div>
       ) : (
-        <div
-          class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/25 px-6 py-14 text-center"
-        >
+        <div class="flex flex-col items-center gap-4 rounded-xl border border-dashed border-cream-text/25 px-6 py-14 text-center">
           <p class="max-w-md text-sm text-white/70">
-            widget
-            <code class="mx-1 rounded bg-forest-deep/60 px-1.5 py-0.5">
-              Reviews.astro
-            </code>
-            .
+            Brak opinii — dodaj slajdy w Storyblok (sekcja „Opinie” → „Slajdy”).
           </p>
-          <a
-            href={reviews.znanylekarzProfileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm underline underline-offset-4 hover:opacity-70"
-          >
-            Zobacz opinie na ZnanyLekarz →
-          </a>
+          {reviews.znanylekarzProfileUrl && (
+            <a
+              href={reviews.znanylekarzProfileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm underline underline-offset-4 hover:opacity-70"
+            >
+              {reviews.znanylekarzLinkLabel} →
+            </a>
+          )}
         </div>
       )
     }
   </Container>
 </section>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  import Autoplay from 'embla-carousel-autoplay';
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-carousel-viewport]');
+    if (!viewport) return;
+
+    const embla = EmblaCarousel(
+      viewport,
+      { loop: true, align: 'start', containScroll: 'trimSnaps' },
+      reduceMotion ? [] : [Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true })],
+    );
+
+    const prev = root.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    prev?.addEventListener('click', () => embla.scrollPrev());
+    next?.addEventListener('click', () => embla.scrollNext());
+
+    const dotsNode = root.querySelector<HTMLElement>('[data-carousel-dots]');
+    let dots: HTMLButtonElement[] = [];
+
+    const renderDots = () => {
+      if (!dotsNode) return;
+      dotsNode.innerHTML = '';
+      dots = embla.scrollSnapList().map((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className =
+          'size-2.5 rounded-full bg-cream-text/30 transition hover:bg-cream-text/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage';
+        dot.setAttribute('aria-label', `Przejdź do opinii ${i + 1}`);
+        dot.addEventListener('click', () => embla.scrollTo(i));
+        dotsNode.appendChild(dot);
+        return dot;
+      });
+    };
+
+    const syncDots = () => {
+      const selected = embla.selectedScrollSnap();
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-cream-text/30', i !== selected);
+        dot.classList.toggle('bg-sage', i === selected);
+        dot.setAttribute('aria-current', i === selected ? 'true' : 'false');
+      });
+    };
+
+    embla.on('init', renderDots).on('reInit', renderDots);
+    embla.on('init', syncDots).on('reInit', syncDots).on('select', syncDots);
+    renderDots();
+    syncDots();
+  });
+</script>
