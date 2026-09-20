@@ -78,20 +78,20 @@ const mapQuery = `${business.street}, ${business.postalCode} ${business.city}`;
           >
             Pokaż mapę dojazdu
           </button>
-          <p class="text-xs text-forest-deep">
+          <p class="text-xs text-ink">
             Ładuje Mapy Google — usługa zewnętrzna, która zapisuje pliki cookie.
           </p>
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-xs underline underline-offset-4 hover:opacity-70"
+            class="text-xs text-ink underline underline-offset-4 hover:opacity-70"
           >
             albo otwórz w nowej karcie
           </a>
         </div>
       </div>
-      <div class="max-w-[605px] w-full text-sm leading-relaxed text-forest-deep/80">
+      <div class="max-w-[605px] w-full text-sm leading-relaxed text-forest-deep">
         <p class="font-medium">{contact.directionsTitle}</p>
         {/* Richtext carries its own <p>/<ul>, so it sits next to the title, not inside it. */}
         <div class="richtext" set:html={contact.directions} />

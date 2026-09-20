@@ -66,7 +66,7 @@ const slides = reviews.items;
                 </svg>
               </button>
 
-              <div class="flex items-center gap-2.5" data-carousel-dots />
+              <div class="flex items-center gap-1" data-carousel-dots />
 
               <button
                 type="button"
@@ -141,11 +141,17 @@ const slides = reviews.items;
       if (!dotsNode) return;
       dotsNode.innerHTML = '';
       dots = embla.scrollSnapList().map((_, i) => {
+        // The visible dot stays 10px, but the button around it is 24px — the
+        // minimum touch target. A bare 10px dot fails the tap-target audit and
+        // is genuinely hard to hit on a phone.
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className =
-          'size-2.5 rounded-full bg-cream-text/30 transition hover:bg-cream-text/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage';
+          'flex size-6 shrink-0 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sage';
         dot.setAttribute('aria-label', `Przejdź do opinii ${i + 1}`);
+        const pip = document.createElement('span');
+        pip.className = 'size-2.5 rounded-full bg-cream-text/30 transition';
+        dot.appendChild(pip);
         dot.addEventListener('click', () => embla.scrollTo(i));
         dotsNode.appendChild(dot);
         return dot;
@@ -155,8 +161,9 @@ const slides = reviews.items;
     const syncDots = () => {
       const selected = embla.selectedScrollSnap();
       dots.forEach((dot, i) => {
-        dot.classList.toggle('bg-cream-text/30', i !== selected);
-        dot.classList.toggle('bg-sage', i === selected);
+        const pip = dot.firstElementChild;
+        pip?.classList.toggle('bg-cream-text/30', i !== selected);
+        pip?.classList.toggle('bg-sage', i === selected);
         dot.setAttribute('aria-current', i === selected ? 'true' : 'false');
       });
     };

@@ -11,7 +11,7 @@ const { pricing, editable } = await getContent();
     heading={pricing.heading}
     html={pricing.intro}
     headingClass="text-forest-deep"
-    textClass="text-forest-deep/80"
+    textClass="text-forest-deep"
   />
 
     <div class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6 lg:mt-0">
@@ -24,7 +24,7 @@ const { pricing, editable } = await getContent();
             <h3 class="text-[36px] text-ink-soft">{item.name}</h3>
             <p class="font-display text-4xl text-forest-deep">
               {item.price}
-              <span class="ml-1 text-sage">{item.duration}</span>
+              <span class="ml-1 text-forest-deep/70">{item.duration}</span>
             </p>
             <BookingButton variant="dark" />
           </article>

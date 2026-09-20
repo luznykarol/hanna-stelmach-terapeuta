@@ -19,6 +19,12 @@ export default defineConfig({
   // @id/url pairs in the JSON-LD graph and the sitemap — follows this one value,
   // so it must match the primary domain set in Netlify exactly (no www, https).
   site: 'https://hannastelmach.pl',
+  build: {
+    // The whole site is one page and its stylesheet is ~7 kB gzipped, so the
+    // extra request costs more than the bytes: Lighthouse flagged it as the only
+    // render-blocking resource. Inlined, the page paints without a round trip.
+    inlineStylesheets: 'always',
+  },
   integrations: [storyblok({
     accessToken: env.STORYBLOK_TOKEN,
     // Content is mapped manually in src/lib/content.ts (not via <StoryblokComponent>),
