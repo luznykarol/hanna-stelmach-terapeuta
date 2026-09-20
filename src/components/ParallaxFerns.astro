@@ -50,10 +50,10 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={topLeft}
           alt=""
-          width={680}
-          widths={[340, 580, 680]}
+          width={480}
+          widths={[340, 480]}
           sizes="(min-width: 1024px) 580px, min(80vw, 340px)"
-          quality={65}
+          quality={60}
           loading="eager"
           fetchpriority="high"
           class="w-[80vw] rotate-[28.86deg] max-w-[340px] lg:h-[1145px] lg:w-[580px] lg:max-w-full"
@@ -68,8 +68,9 @@ const { variant = 'hero' } = Astro.props;
           width={600}
           widths={[240, 300, 480, 600]}
           sizes="(min-width: 1024px) 240px, min(40vw, 300px)"
-          quality={65}
+          quality={60}
           loading="eager"
+          fetchpriority="low"
           class="w-[40vw] lg:w-[17vw] max-w-[300px] lg:max-w-[240px]"
         />
       </div>
@@ -79,11 +80,12 @@ const { variant = 'hero' } = Astro.props;
         <Image
           src={topRight}
           alt=""
-          width={740}
-          widths={[370, 573, 740]}
+          width={573}
+          widths={[370, 480, 573]}
           sizes="(min-width: 1024px) 573px, min(64vw, 370px)"
-          quality={65}
+          quality={60}
           loading="eager"
+          fetchpriority="low"
           class="w-[64vw] rotate-[-71deg] max-w-[370px] lg:w-[33vw] lg:max-w-[573px] scale-x-[-1]"
         />
       </div>
@@ -125,7 +127,7 @@ const { variant = 'hero' } = Astro.props;
           width={840}
           widths={[420, 620, 840]}
           sizes="(min-width: 1024px) 620px, min(70vw, 420px)"
-          quality={65}
+          quality={60}
           loading="lazy"
           class="w-[70vw] max-w-[420px] rotate-[-6deg] lg:w-[620px]"
         />
@@ -149,7 +151,7 @@ const { variant = 'hero' } = Astro.props;
           width={800}
           widths={[360, 720, 800]}
           sizes="(min-width: 1024px) 800px, 80vw"
-          quality={65}
+          quality={60}
           loading="lazy"
           class="w-[80vw] lg:w-[800px] "
         />

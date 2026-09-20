@@ -27,12 +27,15 @@
   font-display: swap;
 }
 
-/* Body — Open Sans (variable) */
+/* Body — Open Sans (variable weight 300–800).
+   Subset to latin + latin-ext with the width axis pinned at 100: nothing here
+   uses condensed widths, and the full two-axis font was 273 kB — preloaded at
+   high priority, it took bandwidth away from the LCP image on a slow link.
+   Now 56 kB. Polish diacritics verified present. */
 @font-face {
   font-family: 'Open Sans';
   src: url('/fonts/OpenSans-Variable.woff2') format('woff2');
   font-weight: 300 800;
-  font-stretch: 75% 100%;
   font-style: normal;
   font-display: swap;
 }
@@ -40,7 +43,6 @@
   font-family: 'Open Sans';
   src: url('/fonts/OpenSans-Italic-Variable.woff2') format('woff2');
   font-weight: 300 800;
-  font-stretch: 75% 100%;
   font-style: italic;
   font-display: swap;
 }
